@@ -1,5 +1,13 @@
+import backend.Backend;
+import frontend.Frontend;
+
 public class App {
+
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        Backend backend = new Backend();
+        Frontend frontend = new Frontend(backend);
+
+        frontend.run();
     }
+
 }
