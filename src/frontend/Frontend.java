@@ -12,7 +12,6 @@ public class Frontend {
 
     public void run() {
         MainWindow mainWindow = new MainWindow(this.getBackend());
-
         mainWindow.run();
     }
 
