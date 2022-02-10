@@ -11,8 +11,8 @@ public class Backend {
         this.getProject().getProducts().put(name, product);
     }
 
-    public void addCartItem(String name, double price, int quantity) {
-        CartItem cartItem = new CartItem(name, price, quantity);
+    public void addCartItem(String name, int quantity) {
+        CartItem cartItem = new CartItem(name, quantity);
         this.getProject().getCartItems().put(name, cartItem);
     }
 

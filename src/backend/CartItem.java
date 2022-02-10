@@ -1,20 +1,29 @@
 package backend;
 
-public class CartItem extends Product {
+public class CartItem {
 
+    private String name = "";
     private int quantity = 0;
 
-    public CartItem(String name, double price, int quantity) {
-        super(name, price);
-        this.quantity = quantity;
+    public CartItem(String name, int quantity) {
+        this.setName(name);
+        this.setQuantity(quantity);
     }
 
     // Setters-----------------------------------------------------------------
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
     // Getters ----------------------------------------------------------------
+    public String getName() {
+        return this.name;
+    }
+
     public int getQuantity() {
         return this.quantity;
     }

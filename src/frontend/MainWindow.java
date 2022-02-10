@@ -39,8 +39,6 @@ public class MainWindow {
         gui.btn_menu_cart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gui.card_layout.show(gui.panel_pages, "cart");
-
                 gui.choice_name.removeAll();
 
                 backend.getAllProducts().forEach(product -> {
@@ -56,6 +54,7 @@ public class MainWindow {
                 }
 
                 updateCartList();
+                gui.card_layout.show(gui.panel_pages, "cart");
             }
         });
 
@@ -84,18 +83,22 @@ public class MainWindow {
                 String name = gui.txt_data_name.getText().replace("|", "-").trim();
                 String price = gui.txt_data_price.getText();
 
+                if (name.isEmpty()) {
+                    System.out.println("Nome invalido");
+                    return;
+                }
+
                 try {
                     double price_d = Double.parseDouble(price);
                     backend.addProduct(name, price_d);
 
-                    gui.txt_data_search.setText("");
-                    setTextFilter("");
-
                 } catch (NumberFormatException err) {
-                    System.out.println("Preço invalido");
+                    System.out.println("Preco invalido");
 
                 }
 
+                gui.txt_data_search.setText("");
+                setTextFilter("");
                 updateDataList();
             }
         });
@@ -113,6 +116,7 @@ public class MainWindow {
                 String name = text.split("\\|")[0].trim();
 
                 backend.popProduct(name);
+                backend.popCartItem(name);
                 updateDataList();
             }
         });
@@ -140,19 +144,32 @@ public class MainWindow {
                     return;
                 }
 
-                Product product = backend.getProduct(name);
-                double price = product.getPrice();
-                String quantity = gui.txt_cart_quantity.getText();
-
                 try {
-                    int quantity_i = Integer.parseInt(quantity);
-                    backend.addCartItem(name, price, quantity_i);
+                    int quantity = Integer.parseInt(gui.txt_cart_quantity.getText());
+                    backend.addCartItem(name, quantity);
 
                 } catch (NumberFormatException err) {
-                    System.out.println("Preço invalido");
+                    System.out.println("Quantidade invalida");
 
                 }
 
+                updateCartList();
+            }
+        });
+
+        // --------------------------------------------------------------------
+        gui.btn_cart_pop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String text = gui.list_cart.getSelectedItem();
+
+                if (text == null) {
+                    return;
+                }
+
+                String name = text.split("\\|")[0].trim();
+
+                backend.popCartItem(name);
                 updateCartList();
             }
         });
@@ -186,17 +203,19 @@ public class MainWindow {
 
         for (CartItem cartItem : backend.getAllCartItems()) {
             String name = cartItem.getName();
-            String price = String.valueOf(cartItem.getPrice());
-            String quantity = String.valueOf(cartItem.getQuantity());
+            int quantity = cartItem.getQuantity();
 
-            sum += cartItem.getPrice() * cartItem.getQuantity();
+            Product product = backend.getProduct(name);
+            double price = product.getPrice();
 
-            String text = String.format("%s | $:%s | Quantidade: %s", name, price, quantity);
+            sum += price * quantity;
+
+            String text = String.format("%s | $:%f | Quantidade: %d", name, price, quantity);
 
             gui.list_cart.add(text);
         }
 
-        gui.lbl_cart_total.setText(String.format("Total a pagar: $%s", String.valueOf(sum)));
+        gui.lbl_cart_total.setText(String.format("Total a pagar: $%f", sum));
     }
 
     // Setters-----------------------------------------------------------------
