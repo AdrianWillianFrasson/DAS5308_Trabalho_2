@@ -12,19 +12,19 @@ public class MainWindow_GUI extends Frame {
 
     public CardLayout card_layout = new CardLayout();
 
-    public Button btn_menu_data = new Button("Page - 1");
-    public Button btn_menu_cart = new Button("Page - 2");
+    public Button btn_menu_data = new Button("Banco de dados");
+    public Button btn_menu_cart = new Button("Carrinho");
     public Button btn_data_search = new Button("Procurar");
-    public Button btn_data_add = new Button("Adicionar produto");
-    public Button btn_cart_add = new Button("Adicionar produto");
-    public Button btn_data_pop = new Button("Remover produto");
-    public Button btn_cart_pop = new Button("Remover produto");
+    public Button btn_data_add = new Button("Criar produto");
+    public Button btn_cart_add = new Button("Adicionar produto ao carrinho");
+    public Button btn_data_pop = new Button("Excluir produto selecionado");
+    public Button btn_cart_pop = new Button("Remover produto selecionado do carrinho");
 
-    public Label lbl_data_search = new Label("Filtrar produto:");
-    public Label lbl_data_name = new Label("Nome:");
+    public Label lbl_data_search = new Label("Filtrar produtos:");
+    public Label lbl_data_name = new Label("Nome do produto:");
     public Label lbl_cart_name = new Label("Produto:");
-    public Label lbl_data_price = new Label("Preco:");
-    public Label lbl_cart_price = new Label("Preco:");
+    public Label lbl_data_price = new Label("Preco do produto [$]:");
+    public Label lbl_cart_price = new Label("Preco unitario [$]:");
     public Label lbl_cart_quantity = new Label("Quantidade:");
     public Label lbl_cart_total = new Label("Total a pagar: $0");
 
@@ -41,8 +41,10 @@ public class MainWindow_GUI extends Frame {
 
     // Constructor ------------------------------------------------------------
     public MainWindow_GUI() {
-        this.setTitle("Main Window");
+        this.setTitle("Janela Principal");
         this.setLayout(new GridBagLayout());
+        this.setBackground(new Color(246, 246, 246));
+        this.setFont(new Font("SansSerif", Font.PLAIN, 16));
 
         GridBagConstraints c = new GridBagConstraints();
 
@@ -53,6 +55,8 @@ public class MainWindow_GUI extends Frame {
         c.weightx = 0.0;
         c.gridy = 0;
         c.gridx = 0;
+        c.insets = new Insets(5, 5, 5, 5);
+        this.btn_menu_data.setBackground(Color.LIGHT_GRAY);
         this.add(this.btn_menu_data, c);
 
         c.fill = GridBagConstraints.BOTH;
@@ -62,6 +66,7 @@ public class MainWindow_GUI extends Frame {
         c.weightx = 0.0;
         c.gridy = 1;
         c.gridx = 0;
+        this.btn_menu_cart.setBackground(Color.LIGHT_GRAY);
         this.add(this.btn_menu_cart, c);
 
         c.fill = GridBagConstraints.BOTH;
@@ -261,6 +266,7 @@ public class MainWindow_GUI extends Frame {
         c.weightx = 1.0;
         c.gridy = 6;
         c.gridx = 0;
+        this.lbl_cart_total.setFont(new Font("SansSerif", Font.BOLD, 16));
         this.panel_cart.add(this.lbl_cart_total, c);
 
         // --------------------------------------------------------------------

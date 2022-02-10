@@ -1,11 +1,12 @@
 package frontend;
 
+import java.awt.event.*;
+
+import frontend.GUI.MainWindow_GUI;
+
 import backend.Backend;
 import backend.CartItem;
 import backend.Product;
-import frontend.GUI.MainWindow_GUI;
-
-import java.awt.event.*;
 
 public class MainWindow {
 
