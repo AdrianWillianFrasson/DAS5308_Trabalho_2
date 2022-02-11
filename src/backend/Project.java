@@ -5,10 +5,15 @@ import java.util.Hashtable;
 
 public class Project implements Serializable {
 
+    private PersonalData personalData = new PersonalData();
     private Hashtable<String, Product> products = new Hashtable<String, Product>();
     private Hashtable<String, CartItem> cartItems = new Hashtable<String, CartItem>();
 
     // Getters ----------------------------------------------------------------
+    public PersonalData getPersonalData() {
+        return this.personalData;
+    }
+
     public Hashtable<String, Product> getProducts() {
         return this.products;
     }

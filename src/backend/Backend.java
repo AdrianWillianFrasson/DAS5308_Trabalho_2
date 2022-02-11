@@ -33,6 +33,10 @@ public class Backend {
         return this.getProject().getCartItems().get(name);
     }
 
+    public PersonalData getPersonalData() {
+        return this.getProject().getPersonalData();
+    }
+
     public Collection<Product> getAllProducts() {
         return this.getProject().getProducts().values();
     }

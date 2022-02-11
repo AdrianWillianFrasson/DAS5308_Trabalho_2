@@ -6,30 +6,43 @@ public abstract class MainWindow_GUI extends Frame {
 
     // Components -------------------------------------------------------------
     protected Panel panel_pages = new Panel();
+    protected Panel panel_info = new Panel();
     protected Panel panel_data = new Panel();
     protected Panel panel_cart = new Panel();
 
     protected CardLayout card_layout = new CardLayout();
 
+    protected Button btn_menu_info = new Button("Informacoes");
     protected Button btn_menu_data = new Button("Banco de dados");
     protected Button btn_menu_cart = new Button("Carrinho");
-    protected Button btn_data_search = new Button("Procurar");
+    protected Button btn_info_load = new Button("Carregar projeto");
+    protected Button btn_info_save = new Button("Salvar projeto");
     protected Button btn_data_add = new Button("Criar produto");
-    protected Button btn_cart_add = new Button("Adicionar produto ao carrinho");
     protected Button btn_data_pop = new Button("Excluir produto selecionado");
+    protected Button btn_cart_add = new Button("Adicionar produto ao carrinho");
     protected Button btn_cart_pop = new Button("Remover produto selecionado do carrinho");
     protected Button btn_cart_pay = new Button("Realizar compra");
 
+    protected Label lbl_info_cnpj = new Label("Cnpj:");
+    protected Label lbl_info_city = new Label("City:");
+    protected Label lbl_info_email = new Label("Email:");
+    protected Label lbl_info_address = new Label("Address:");
+    protected Label lbl_info_telephone = new Label("Telephone:");
     protected Label lbl_data_search = new Label("Filtrar produtos:");
     protected Label lbl_data_name = new Label("Nome do produto:");
-    protected Label lbl_cart_name = new Label("Produto:");
     protected Label lbl_data_price = new Label("Preco do produto [$]:");
-    protected Label lbl_cart_price = new Label("Preco unitario [$]:");
     protected Label lbl_data_stock = new Label("Quantidade em estoque:");
+    protected Label lbl_cart_name = new Label("Produto:");
+    protected Label lbl_cart_price = new Label("Preco unitario [$]:");
     protected Label lbl_cart_stock = new Label("Quantidade em estoque:");
     protected Label lbl_cart_quantity = new Label("Quantidade de compra:");
     protected Label lbl_cart_total = new Label("Total a pagar: $0");
 
+    protected TextField txt_info_cnpj = new TextField();
+    protected TextField txt_info_city = new TextField();
+    protected TextField txt_info_email = new TextField();
+    protected TextField txt_info_address = new TextField();
+    protected TextField txt_info_telephone = new TextField();
     protected TextField txt_data_search = new TextField();
     protected TextField txt_data_name = new TextField();
     protected TextField txt_data_price = new TextField();
@@ -61,8 +74,8 @@ public abstract class MainWindow_GUI extends Frame {
         c.gridy = 0;
         c.gridx = 0;
         c.insets = new Insets(5, 5, 5, 5);
-        this.btn_menu_data.setBackground(Color.LIGHT_GRAY);
-        this.add(this.btn_menu_data, c);
+        this.btn_menu_info.setBackground(Color.LIGHT_GRAY);
+        this.add(this.btn_menu_info, c);
 
         c.fill = GridBagConstraints.BOTH;
         c.gridheight = 1;
@@ -71,20 +84,142 @@ public abstract class MainWindow_GUI extends Frame {
         c.weightx = 0.0;
         c.gridy = 1;
         c.gridx = 0;
+        this.btn_menu_data.setBackground(Color.LIGHT_GRAY);
+        this.add(this.btn_menu_data, c);
+
+        c.fill = GridBagConstraints.BOTH;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 1.0;
+        c.weightx = 0.0;
+        c.gridy = 2;
+        c.gridx = 0;
         this.btn_menu_cart.setBackground(Color.LIGHT_GRAY);
         this.add(this.btn_menu_cart, c);
 
         c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 2;
+        c.gridheight = 3;
         c.gridwidth = 1;
         c.weighty = 1.0;
         c.weightx = 1.0;
         c.gridy = 0;
         c.gridx = 1;
         this.panel_pages.setLayout(this.card_layout);
+        this.panel_pages.add("info", this.panel_info);
         this.panel_pages.add("data", this.panel_data);
         this.panel_pages.add("cart", this.panel_cart);
         this.add(this.panel_pages, c);
+
+        // --------------------------------------------------------------------
+        this.panel_info.setLayout(new GridBagLayout());
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 0;
+        c.gridx = 0;
+        this.panel_info.add(this.btn_info_load, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 0;
+        c.gridx = 1;
+        this.panel_info.add(this.btn_info_save, c);
+
+        c.fill = GridBagConstraints.NONE;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 0.0;
+        c.gridy = 1;
+        c.gridx = 0;
+        this.panel_info.add(this.lbl_info_cnpj, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 1;
+        c.gridx = 1;
+        this.panel_info.add(this.txt_info_cnpj, c);
+
+        c.fill = GridBagConstraints.NONE;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 0.0;
+        c.gridy = 2;
+        c.gridx = 0;
+        this.panel_info.add(this.lbl_info_city, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 2;
+        c.gridx = 1;
+        this.panel_info.add(this.txt_info_city, c);
+
+        c.fill = GridBagConstraints.NONE;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 0.0;
+        c.gridy = 3;
+        c.gridx = 0;
+        this.panel_info.add(this.lbl_info_email, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 3;
+        c.gridx = 1;
+        this.panel_info.add(this.txt_info_email, c);
+
+        c.fill = GridBagConstraints.NONE;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 0.0;
+        c.gridy = 4;
+        c.gridx = 0;
+        this.panel_info.add(this.lbl_info_address, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 4;
+        c.gridx = 1;
+        this.panel_info.add(this.txt_info_address, c);
+
+        c.fill = GridBagConstraints.NONE;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 0.0;
+        c.gridy = 5;
+        c.gridx = 0;
+        this.panel_info.add(this.lbl_info_telephone, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 5;
+        c.gridx = 1;
+        this.panel_info.add(this.txt_info_telephone, c);
 
         // --------------------------------------------------------------------
         this.panel_data.setLayout(new GridBagLayout());
@@ -107,18 +242,9 @@ public abstract class MainWindow_GUI extends Frame {
         c.gridx = 1;
         this.panel_data.add(this.txt_data_search, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
-        c.gridy = 0;
-        c.gridx = 2;
-        this.panel_data.add(this.btn_data_search, c);
-
         c.fill = GridBagConstraints.BOTH;
         c.gridheight = 1;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.weighty = 1.0;
         c.weightx = 1.0;
         c.gridy = 1;
@@ -136,7 +262,7 @@ public abstract class MainWindow_GUI extends Frame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
         c.weighty = 0.0;
         c.weightx = 1.0;
         c.gridy = 2;
@@ -154,7 +280,7 @@ public abstract class MainWindow_GUI extends Frame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
         c.weighty = 0.0;
         c.weightx = 1.0;
         c.gridy = 3;
@@ -172,7 +298,7 @@ public abstract class MainWindow_GUI extends Frame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
-        c.gridwidth = 2;
+        c.gridwidth = 1;
         c.weighty = 0.0;
         c.weightx = 1.0;
         c.gridy = 4;
@@ -181,7 +307,7 @@ public abstract class MainWindow_GUI extends Frame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.weighty = 0.0;
         c.weightx = 1.0;
         c.gridy = 5;
@@ -190,7 +316,7 @@ public abstract class MainWindow_GUI extends Frame {
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
-        c.gridwidth = 3;
+        c.gridwidth = 2;
         c.weighty = 0.0;
         c.weightx = 1.0;
         c.gridy = 6;

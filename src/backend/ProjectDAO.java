@@ -18,7 +18,7 @@ public class ProjectDAO {
             fileStream.close();
             objectStream.close();
 
-            System.out.println("salvou");
+            System.out.println("Projeto salvado");
 
         } catch (Exception err) {
             System.err.println("Erro!:" + err);
@@ -35,7 +35,7 @@ public class ProjectDAO {
             fileStream.close();
             objectStream.close();
 
-            System.out.println("Carregou");
+            System.out.println("Projeto carregado");
 
             return project;
 

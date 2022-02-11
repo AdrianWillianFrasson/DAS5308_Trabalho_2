@@ -6,8 +6,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 import backend.Backend;
-import backend.CartItem;
 import backend.Product;
+import backend.CartItem;
+import backend.PersonalData;
 
 public class MainWindow extends MainWindow_GUI {
 
@@ -21,6 +22,16 @@ public class MainWindow extends MainWindow_GUI {
 
     private void createListeners() {
         Backend backend = this.getBackend();
+        PersonalData personalData = backend.getPersonalData();
+
+        // --------------------------------------------------------------------
+        this.btn_menu_info.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateInfo();
+                card_layout.show(panel_pages, "info");
+            }
+        });
 
         // --------------------------------------------------------------------
         this.btn_menu_data.addActionListener(new ActionListener() {
@@ -42,22 +53,80 @@ public class MainWindow extends MainWindow_GUI {
         });
 
         // --------------------------------------------------------------------
-        this.txt_data_search.addActionListener(new ActionListener() {
+        interface GenericLambda {
+            public void run(String text);
+        }
+
+        class GenericTextListener implements TextListener {
+            public GenericLambda lambda;
+
+            public GenericTextListener(GenericLambda lambda) {
+                this.lambda = lambda;
+            }
+
+            @Override
+            public void textValueChanged(TextEvent e) {
+                TextField textField = (TextField) e.getSource();
+                this.lambda.run(textField.getText());
+            }
+        }
+
+        this.txt_info_cnpj.addTextListener(new GenericTextListener((v) -> personalData.setCnpj(v)));
+        this.txt_info_city.addTextListener(new GenericTextListener((v) -> personalData.setCity(v)));
+        this.txt_info_email.addTextListener(new GenericTextListener((v) -> personalData.setEmail(v)));
+        this.txt_info_address.addTextListener(new GenericTextListener((v) -> personalData.setAddress(v)));
+        this.txt_info_telephone.addTextListener(new GenericTextListener((v) -> personalData.setTelephone(v)));
+
+        // --------------------------------------------------------------------
+        this.btn_info_load.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTextFilter(txt_data_search.getText());
-                updateDataList();
+                FileDialog fileDialog = new FileDialog(new Frame(), "Carregar projeto...", FileDialog.LOAD);
+
+                fileDialog.setFile("*.project");
+                fileDialog.setVisible(true);
+
+                String fileName = fileDialog.getFile();
+                String filePath = fileDialog.getDirectory();
+
+                if (fileName == null || filePath == null) {
+                    return;
+                }
+
+                String completePath = filePath + fileName;
+
+                backend.loadProject(completePath);
+                updateInfo();
             }
         });
 
         // --------------------------------------------------------------------
-        this.btn_data_search.addActionListener(new ActionListener() {
+        this.btn_info_save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTextFilter(txt_data_search.getText());
-                updateDataList();
+                FileDialog fileDialog = new FileDialog(new Frame(), "Salvar projeto...", FileDialog.SAVE);
+
+                fileDialog.setFile("*.project");
+                fileDialog.setVisible(true);
+
+                String fileName = fileDialog.getFile();
+                String filePath = fileDialog.getDirectory();
+
+                if (fileName == null || filePath == null) {
+                    return;
+                }
+
+                String completePath = filePath + fileName;
+
+                backend.saveProject(completePath);
             }
         });
+
+        // --------------------------------------------------------------------
+        this.txt_data_search.addTextListener(new GenericTextListener((v) -> {
+            setTextFilter(v);
+            updateDataList();
+        }));
 
         // --------------------------------------------------------------------
         this.btn_data_add.addActionListener(new ActionListener() {
@@ -208,6 +277,16 @@ public class MainWindow extends MainWindow_GUI {
     public void run() {
         this.createListeners();
         super.run();
+    }
+
+    private void updateInfo() {
+        PersonalData personalData = this.getBackend().getPersonalData();
+
+        this.txt_info_cnpj.setText(personalData.getCnpj());
+        this.txt_info_city.setText(personalData.getCity());
+        this.txt_info_email.setText(personalData.getEmail());
+        this.txt_info_address.setText(personalData.getAddress());
+        this.txt_info_telephone.setText(personalData.getTelephone());
     }
 
     private void updateDataList() {
