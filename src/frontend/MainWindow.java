@@ -1,19 +1,17 @@
 package frontend;
 
-import java.awt.event.*;
-
 import frontend.GUI.MainWindow_GUI;
-import frontend.GUI.MessageWindow_GUI;
+
+import java.awt.*;
+import java.awt.event.*;
 
 import backend.Backend;
 import backend.CartItem;
 import backend.Product;
 
-public class MainWindow {
+public class MainWindow extends MainWindow_GUI {
 
     private Backend backend;
-    private MainWindow_GUI gui = new MainWindow_GUI();
-
     private String textFilter = "";
     private double payableSum = 0.0;
 
@@ -21,59 +19,53 @@ public class MainWindow {
         this.setBackend(backend);
     }
 
-    public void run() {
-        this.createConnections();
-        this.getGui().run();
-    }
-
-    private void createConnections() {
+    private void createListeners() {
         Backend backend = this.getBackend();
-        MainWindow_GUI gui = this.getGui();
 
         // --------------------------------------------------------------------
-        gui.btn_menu_data.addActionListener(new ActionListener() {
+        this.btn_menu_data.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateDataList();
-                gui.card_layout.show(gui.panel_pages, "data");
+                card_layout.show(panel_pages, "data");
             }
         });
 
         // --------------------------------------------------------------------
-        gui.btn_menu_cart.addActionListener(new ActionListener() {
+        this.btn_menu_cart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateProductChoices();
                 updateCartList();
-                gui.card_layout.show(gui.panel_pages, "cart");
+                card_layout.show(panel_pages, "cart");
             }
         });
 
         // --------------------------------------------------------------------
-        gui.txt_data_search.addActionListener(new ActionListener() {
+        this.txt_data_search.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTextFilter(gui.txt_data_search.getText());
+                setTextFilter(txt_data_search.getText());
                 updateDataList();
             }
         });
 
         // --------------------------------------------------------------------
-        gui.btn_data_search.addActionListener(new ActionListener() {
+        this.btn_data_search.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setTextFilter(gui.txt_data_search.getText());
+                setTextFilter(txt_data_search.getText());
                 updateDataList();
             }
         });
 
         // --------------------------------------------------------------------
-        gui.btn_data_add.addActionListener(new ActionListener() {
+        this.btn_data_add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = gui.txt_data_name.getText().replace("|", "-").trim();
-                String price = gui.txt_data_price.getText().trim();
-                String stock = gui.txt_data_stock.getText().trim();
+                String name = txt_data_name.getText().replace("|", "-").trim();
+                String price = txt_data_price.getText().trim();
+                String stock = txt_data_stock.getText().trim();
 
                 if (name.isEmpty()) {
                     System.out.println("Nome invalido");
@@ -86,26 +78,26 @@ public class MainWindow {
 
                     backend.addProduct(name, price_d, stock_i);
 
-                    gui.txt_data_name.setText("");
-                    gui.txt_data_price.setText("");
-                    gui.txt_data_stock.setText("");
+                    txt_data_name.setText("");
+                    txt_data_price.setText("");
+                    txt_data_stock.setText("");
 
                 } catch (NumberFormatException err) {
                     System.out.println("Preco/Estoque invalido");
 
                 }
 
-                gui.txt_data_search.setText("");
+                txt_data_search.setText("");
                 setTextFilter("");
                 updateDataList();
             }
         });
 
         // --------------------------------------------------------------------
-        gui.btn_data_pop.addActionListener(new ActionListener() {
+        this.btn_data_pop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String text = gui.list_data.getSelectedItem();
+                String text = list_data.getSelectedItem();
 
                 if (text == null) {
                     return;
@@ -119,24 +111,24 @@ public class MainWindow {
         });
 
         // --------------------------------------------------------------------
-        gui.choice_name.addItemListener(new ItemListener() {
+        this.choice_name.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                String name = gui.choice_name.getSelectedItem();
+                String name = choice_name.getSelectedItem();
 
                 if (name != null) {
                     Product product = backend.getProduct(name);
-                    gui.txt_cart_price.setText(String.valueOf(product.getPrice()));
-                    gui.txt_cart_stock.setText(String.valueOf(product.getStock()));
+                    txt_cart_price.setText(String.valueOf(product.getPrice()));
+                    txt_cart_stock.setText(String.valueOf(product.getStock()));
                 }
             }
         });
 
         // --------------------------------------------------------------------
-        gui.btn_cart_add.addActionListener(new ActionListener() {
+        this.btn_cart_add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String name = gui.choice_name.getSelectedItem();
+                String name = choice_name.getSelectedItem();
 
                 if (name == null) {
                     return;
@@ -145,7 +137,7 @@ public class MainWindow {
                 Product product = backend.getProduct(name);
 
                 try {
-                    int quantity = Integer.parseInt(gui.txt_cart_quantity.getText().trim());
+                    int quantity = Integer.parseInt(txt_cart_quantity.getText().trim());
 
                     if (quantity > product.getStock()) {
                         quantity = product.getStock();
@@ -154,7 +146,7 @@ public class MainWindow {
 
                     backend.addCartItem(name, quantity);
 
-                    gui.txt_cart_quantity.setText("");
+                    txt_cart_quantity.setText("");
 
                 } catch (NumberFormatException err) {
                     System.out.println("Quantidade invalida");
@@ -166,10 +158,10 @@ public class MainWindow {
         });
 
         // --------------------------------------------------------------------
-        gui.btn_cart_pop.addActionListener(new ActionListener() {
+        this.btn_cart_pop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String text = gui.list_cart.getSelectedItem();
+                String text = list_cart.getSelectedItem();
 
                 if (text == null) {
                     return;
@@ -183,7 +175,7 @@ public class MainWindow {
         });
 
         // --------------------------------------------------------------------
-        gui.btn_cart_pay.addActionListener(new ActionListener() {
+        this.btn_cart_pay.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (CartItem cartItem : backend.getAllCartItems()) {
@@ -195,21 +187,33 @@ public class MainWindow {
 
                 double payableSum = getPayableSum();
 
-                gui.txt_cart_quantity.setText("");
+                txt_cart_quantity.setText("");
                 backend.removeAllCartItems();
                 updateProductChoices();
                 updateCartList();
 
-                new MessageWindow_GUI(gui).run(String.format("Total pagado: %f", payableSum));
+                new MessageDialog(new Frame()).run(String.format("Total pagado: %f", payableSum));
+            }
+        });
+
+        // --------------------------------------------------------------------
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dispose();
             }
         });
     }
 
+    public void run() {
+        this.createListeners();
+        super.run();
+    }
+
     private void updateDataList() {
         Backend backend = this.getBackend();
-        MainWindow_GUI gui = this.getGui();
 
-        gui.list_data.removeAll();
+        this.list_data.removeAll();
 
         backend.getAllProducts().forEach(product -> {
             String name = product.getName();
@@ -219,7 +223,7 @@ public class MainWindow {
             String text = String.format("%s | $: %s | Estoque: %s", name, price, stock);
 
             if (text.contains(getTextFilter())) {
-                gui.list_data.add(text);
+                this.list_data.add(text);
             }
 
         });
@@ -227,10 +231,9 @@ public class MainWindow {
 
     private void updateCartList() {
         Backend backend = this.getBackend();
-        MainWindow_GUI gui = this.getGui();
 
         setPayableSum(0.0);
-        gui.list_cart.removeAll();
+        this.list_cart.removeAll();
 
         for (CartItem cartItem : backend.getAllCartItems()) {
             String name = cartItem.getName();
@@ -243,30 +246,29 @@ public class MainWindow {
 
             String text = String.format("%s | $:%f | Quantidade: %d", name, price, quantity);
 
-            gui.list_cart.add(text);
+            this.list_cart.add(text);
         }
 
-        gui.lbl_cart_total.setText(String.format("Total a pagar: $%f", getPayableSum()));
+        this.lbl_cart_total.setText(String.format("Total a pagar: $%f", getPayableSum()));
     }
 
     private void updateProductChoices() {
         Backend backend = this.getBackend();
-        MainWindow_GUI gui = this.getGui();
 
-        gui.choice_name.removeAll();
+        this.choice_name.removeAll();
 
         backend.getAllProducts().forEach(product -> {
-            gui.choice_name.add(product.getName());
+            this.choice_name.add(product.getName());
         });
 
-        String name = gui.choice_name.getSelectedItem();
-        gui.txt_cart_price.setText("");
-        gui.txt_cart_stock.setText("");
+        String name = this.choice_name.getSelectedItem();
+        this.txt_cart_price.setText("");
+        this.txt_cart_stock.setText("");
 
         if (name != null) {
             Product product = backend.getProduct(name);
-            gui.txt_cart_price.setText(String.valueOf(product.getPrice()));
-            gui.txt_cart_stock.setText(String.valueOf(product.getStock()));
+            this.txt_cart_price.setText(String.valueOf(product.getPrice()));
+            this.txt_cart_stock.setText(String.valueOf(product.getStock()));
         }
     }
 
@@ -286,10 +288,6 @@ public class MainWindow {
     // Getters ----------------------------------------------------------------
     private Backend getBackend() {
         return this.backend;
-    }
-
-    private MainWindow_GUI getGui() {
-        return this.gui;
     }
 
     private String getTextFilter() {

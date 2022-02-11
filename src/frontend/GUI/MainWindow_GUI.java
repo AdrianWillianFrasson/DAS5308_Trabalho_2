@@ -1,48 +1,47 @@
 package frontend.GUI;
 
 import java.awt.*;
-import java.awt.event.*;
 
-public class MainWindow_GUI extends Frame {
+public abstract class MainWindow_GUI extends Frame {
 
     // Components -------------------------------------------------------------
-    public Panel panel_pages = new Panel();
-    public Panel panel_data = new Panel();
-    public Panel panel_cart = new Panel();
+    protected Panel panel_pages = new Panel();
+    protected Panel panel_data = new Panel();
+    protected Panel panel_cart = new Panel();
 
-    public CardLayout card_layout = new CardLayout();
+    protected CardLayout card_layout = new CardLayout();
 
-    public Button btn_menu_data = new Button("Banco de dados");
-    public Button btn_menu_cart = new Button("Carrinho");
-    public Button btn_data_search = new Button("Procurar");
-    public Button btn_data_add = new Button("Criar produto");
-    public Button btn_cart_add = new Button("Adicionar produto ao carrinho");
-    public Button btn_data_pop = new Button("Excluir produto selecionado");
-    public Button btn_cart_pop = new Button("Remover produto selecionado do carrinho");
-    public Button btn_cart_pay = new Button("Realizar compra");
+    protected Button btn_menu_data = new Button("Banco de dados");
+    protected Button btn_menu_cart = new Button("Carrinho");
+    protected Button btn_data_search = new Button("Procurar");
+    protected Button btn_data_add = new Button("Criar produto");
+    protected Button btn_cart_add = new Button("Adicionar produto ao carrinho");
+    protected Button btn_data_pop = new Button("Excluir produto selecionado");
+    protected Button btn_cart_pop = new Button("Remover produto selecionado do carrinho");
+    protected Button btn_cart_pay = new Button("Realizar compra");
 
-    public Label lbl_data_search = new Label("Filtrar produtos:");
-    public Label lbl_data_name = new Label("Nome do produto:");
-    public Label lbl_cart_name = new Label("Produto:");
-    public Label lbl_data_price = new Label("Preco do produto [$]:");
-    public Label lbl_cart_price = new Label("Preco unitario [$]:");
-    public Label lbl_data_stock = new Label("Quantidade em estoque:");
-    public Label lbl_cart_stock = new Label("Quantidade em estoque:");
-    public Label lbl_cart_quantity = new Label("Quantidade de compra:");
-    public Label lbl_cart_total = new Label("Total a pagar: $0");
+    protected Label lbl_data_search = new Label("Filtrar produtos:");
+    protected Label lbl_data_name = new Label("Nome do produto:");
+    protected Label lbl_cart_name = new Label("Produto:");
+    protected Label lbl_data_price = new Label("Preco do produto [$]:");
+    protected Label lbl_cart_price = new Label("Preco unitario [$]:");
+    protected Label lbl_data_stock = new Label("Quantidade em estoque:");
+    protected Label lbl_cart_stock = new Label("Quantidade em estoque:");
+    protected Label lbl_cart_quantity = new Label("Quantidade de compra:");
+    protected Label lbl_cart_total = new Label("Total a pagar: $0");
 
-    public TextField txt_data_search = new TextField();
-    public TextField txt_data_name = new TextField();
-    public TextField txt_data_price = new TextField();
-    public TextField txt_data_stock = new TextField();
-    public TextField txt_cart_quantity = new TextField();
-    public TextField txt_cart_price = new TextField();
-    public TextField txt_cart_stock = new TextField();
+    protected TextField txt_data_search = new TextField();
+    protected TextField txt_data_name = new TextField();
+    protected TextField txt_data_price = new TextField();
+    protected TextField txt_data_stock = new TextField();
+    protected TextField txt_cart_quantity = new TextField();
+    protected TextField txt_cart_price = new TextField();
+    protected TextField txt_cart_stock = new TextField();
 
-    public Choice choice_name = new Choice();
+    protected Choice choice_name = new Choice();
 
-    public List list_data = new List();
-    public List list_cart = new List();
+    protected List list_data = new List();
+    protected List list_cart = new List();
 
     // Constructor ------------------------------------------------------------
     public MainWindow_GUI() {
@@ -51,6 +50,7 @@ public class MainWindow_GUI extends Frame {
         this.setBackground(new Color(246, 246, 246));
         this.setFont(new Font("SansSerif", Font.PLAIN, 16));
 
+        // --------------------------------------------------------------------
         GridBagConstraints c = new GridBagConstraints();
 
         c.fill = GridBagConstraints.BOTH;
@@ -319,16 +319,9 @@ public class MainWindow_GUI extends Frame {
         c.gridx = 0;
         this.lbl_cart_total.setFont(new Font("SansSerif", Font.BOLD, 16));
         this.panel_cart.add(this.lbl_cart_total, c);
-
-        // --------------------------------------------------------------------
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
     }
 
+    @Override
     public Dimension getPreferredSize() {
         return new Dimension(1080, 720);
     }
