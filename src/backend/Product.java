@@ -4,10 +4,12 @@ public class Product {
 
     private String name = "";
     private double price = 0.0;
+    private int stock = 0;
 
-    public Product(String name, double price) {
+    public Product(String name, double price, int stock) {
         this.setName(name);
         this.setPrice(price);
+        this.setStock(stock);
     }
 
     // Setters-----------------------------------------------------------------
@@ -19,6 +21,10 @@ public class Product {
         this.price = price;
     }
 
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     // Getters ----------------------------------------------------------------
     public String getName() {
         return this.name;
@@ -26,6 +32,10 @@ public class Product {
 
     public double getPrice() {
         return this.price;
+    }
+
+    public int getStock() {
+        return this.stock;
     }
 
 }

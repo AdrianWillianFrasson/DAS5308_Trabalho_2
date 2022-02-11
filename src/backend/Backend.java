@@ -6,8 +6,8 @@ public class Backend {
 
     private Project project = new Project();
 
-    public void addProduct(String name, double price) {
-        Product product = new Product(name, price);
+    public void addProduct(String name, double price, int stock) {
+        Product product = new Product(name, price, stock);
         this.getProject().getProducts().put(name, product);
     }
 
@@ -18,6 +18,7 @@ public class Backend {
 
     public void popProduct(String name) {
         this.getProject().getProducts().remove(name);
+        this.popCartItem(name);
     }
 
     public void popCartItem(String name) {
@@ -38,6 +39,10 @@ public class Backend {
 
     public Collection<CartItem> getAllCartItems() {
         return this.getProject().getCartItems().values();
+    }
+
+    public void removeAllCartItems() {
+        this.getProject().getCartItems().clear();
     }
 
     // Setters-----------------------------------------------------------------

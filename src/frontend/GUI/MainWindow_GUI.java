@@ -19,20 +19,25 @@ public class MainWindow_GUI extends Frame {
     public Button btn_cart_add = new Button("Adicionar produto ao carrinho");
     public Button btn_data_pop = new Button("Excluir produto selecionado");
     public Button btn_cart_pop = new Button("Remover produto selecionado do carrinho");
+    public Button btn_cart_pay = new Button("Realizar compra");
 
     public Label lbl_data_search = new Label("Filtrar produtos:");
     public Label lbl_data_name = new Label("Nome do produto:");
     public Label lbl_cart_name = new Label("Produto:");
     public Label lbl_data_price = new Label("Preco do produto [$]:");
     public Label lbl_cart_price = new Label("Preco unitario [$]:");
-    public Label lbl_cart_quantity = new Label("Quantidade:");
+    public Label lbl_data_stock = new Label("Quantidade em estoque:");
+    public Label lbl_cart_stock = new Label("Quantidade em estoque:");
+    public Label lbl_cart_quantity = new Label("Quantidade de compra:");
     public Label lbl_cart_total = new Label("Total a pagar: $0");
 
     public TextField txt_data_search = new TextField();
     public TextField txt_data_name = new TextField();
     public TextField txt_data_price = new TextField();
-    public TextField txt_cart_price = new TextField();
+    public TextField txt_data_stock = new TextField();
     public TextField txt_cart_quantity = new TextField();
+    public TextField txt_cart_price = new TextField();
+    public TextField txt_cart_stock = new TextField();
 
     public Choice choice_name = new Choice();
 
@@ -156,12 +161,30 @@ public class MainWindow_GUI extends Frame {
         c.gridx = 1;
         this.panel_data.add(this.txt_data_price, c);
 
+        c.fill = GridBagConstraints.NONE;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 4;
+        c.gridx = 0;
+        this.panel_data.add(this.lbl_data_stock, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 2;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 4;
+        c.gridx = 1;
+        this.panel_data.add(this.txt_data_stock, c);
+
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
         c.gridwidth = 3;
         c.weighty = 0.0;
         c.weightx = 1.0;
-        c.gridy = 4;
+        c.gridy = 5;
         c.gridx = 0;
         this.panel_data.add(this.btn_data_add, c);
 
@@ -170,7 +193,7 @@ public class MainWindow_GUI extends Frame {
         c.gridwidth = 3;
         c.weighty = 0.0;
         c.weightx = 1.0;
-        c.gridy = 5;
+        c.gridy = 6;
         c.gridx = 0;
         this.panel_data.add(this.btn_data_pop, c);
 
@@ -221,7 +244,7 @@ public class MainWindow_GUI extends Frame {
         c.weightx = 1.0;
         c.gridy = 2;
         c.gridx = 0;
-        this.panel_cart.add(this.lbl_cart_quantity, c);
+        this.panel_cart.add(this.lbl_cart_stock, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
@@ -230,6 +253,25 @@ public class MainWindow_GUI extends Frame {
         c.weightx = 1.0;
         c.gridy = 2;
         c.gridx = 1;
+        this.txt_cart_stock.setEditable(false);
+        this.panel_cart.add(this.txt_cart_stock, c);
+
+        c.fill = GridBagConstraints.NONE;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 3;
+        c.gridx = 0;
+        this.panel_cart.add(this.lbl_cart_quantity, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 3;
+        c.gridx = 1;
         this.panel_cart.add(this.txt_cart_quantity, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -237,7 +279,7 @@ public class MainWindow_GUI extends Frame {
         c.gridwidth = 2;
         c.weighty = 0.0;
         c.weightx = 1.0;
-        c.gridy = 3;
+        c.gridy = 4;
         c.gridx = 0;
         this.panel_cart.add(this.btn_cart_add, c);
 
@@ -246,7 +288,7 @@ public class MainWindow_GUI extends Frame {
         c.gridwidth = 2;
         c.weighty = 1.0;
         c.weightx = 1.0;
-        c.gridy = 4;
+        c.gridy = 5;
         c.gridx = 0;
         this.panel_cart.add(this.list_cart, c);
 
@@ -255,7 +297,7 @@ public class MainWindow_GUI extends Frame {
         c.gridwidth = 2;
         c.weighty = 0.0;
         c.weightx = 1.0;
-        c.gridy = 5;
+        c.gridy = 6;
         c.gridx = 0;
         this.panel_cart.add(this.btn_cart_pop, c);
 
@@ -264,7 +306,16 @@ public class MainWindow_GUI extends Frame {
         c.gridwidth = 2;
         c.weighty = 0.0;
         c.weightx = 1.0;
-        c.gridy = 6;
+        c.gridy = 7;
+        c.gridx = 0;
+        this.panel_cart.add(this.btn_cart_pay, c);
+
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 2;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 8;
         c.gridx = 0;
         this.lbl_cart_total.setFont(new Font("SansSerif", Font.BOLD, 16));
         this.panel_cart.add(this.lbl_cart_total, c);
