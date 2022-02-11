@@ -45,6 +45,14 @@ public class Backend {
         this.getProject().getCartItems().clear();
     }
 
+    public void saveProject(String path) {
+        ProjectDAO.saveProject(path, this.getProject());
+    }
+
+    public void loadProject(String path) {
+        this.setProject(ProjectDAO.loadProject(path));
+    }
+
     // Setters-----------------------------------------------------------------
     public void setProject(Project project) {
         this.project = project;

@@ -1,6 +1,8 @@
 package backend;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
 
     private String name = "";
     private int quantity = 0;

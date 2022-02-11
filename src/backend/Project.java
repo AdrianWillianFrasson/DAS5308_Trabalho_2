@@ -1,8 +1,9 @@
 package backend;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 
-public class Project {
+public class Project implements Serializable {
 
     private Hashtable<String, Product> products = new Hashtable<String, Product>();
     private Hashtable<String, CartItem> cartItems = new Hashtable<String, CartItem>();
