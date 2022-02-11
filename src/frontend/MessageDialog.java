@@ -11,7 +11,7 @@ public class MessageDialog extends MessageDialog_GUI {
         super(frame);
     }
 
-    public void createListeners() {
+    private void createListeners() {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
