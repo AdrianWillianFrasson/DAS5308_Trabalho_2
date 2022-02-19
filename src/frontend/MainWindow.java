@@ -5,24 +5,24 @@ import frontend.GUI.MainWindow_GUI;
 import java.awt.*;
 import java.awt.event.*;
 
-import backend.Backend;
+import backend.Bakery;
 import backend.Product;
-import backend.CartItem;
-import backend.PersonalData;
+import backend.Item;
+import backend.InformationalData;
 
 public class MainWindow extends MainWindow_GUI {
 
-    private Backend backend;
+    private Bakery backend;
     private String textFilter = "";
     private double payableSum = 0.0;
 
-    MainWindow(Backend backend) {
+    MainWindow(Bakery backend) {
         this.setBackend(backend);
     }
 
     private void createListeners() {
-        Backend backend = this.getBackend();
-        PersonalData personalData = backend.getPersonalData();
+        Bakery backend = this.getBackend();
+        InformationalData informationalData = backend.getInformationalData();
 
         // --------------------------------------------------------------------
         this.btn_menu_info.addActionListener(new ActionListener() {
@@ -71,11 +71,11 @@ public class MainWindow extends MainWindow_GUI {
             }
         }
 
-        this.txt_info_cnpj.addTextListener(new GenericTextListener((v) -> personalData.setCnpj(v)));
-        this.txt_info_city.addTextListener(new GenericTextListener((v) -> personalData.setCity(v)));
-        this.txt_info_email.addTextListener(new GenericTextListener((v) -> personalData.setEmail(v)));
-        this.txt_info_address.addTextListener(new GenericTextListener((v) -> personalData.setAddress(v)));
-        this.txt_info_telephone.addTextListener(new GenericTextListener((v) -> personalData.setTelephone(v)));
+        this.txt_info_cnpj.addTextListener(new GenericTextListener((v) -> informationalData.setCnpj(v)));
+        this.txt_info_city.addTextListener(new GenericTextListener((v) -> informationalData.setCity(v)));
+        this.txt_info_email.addTextListener(new GenericTextListener((v) -> informationalData.setEmail(v)));
+        this.txt_info_address.addTextListener(new GenericTextListener((v) -> informationalData.setAddress(v)));
+        this.txt_info_telephone.addTextListener(new GenericTextListener((v) -> informationalData.setTelephone(v)));
 
         // --------------------------------------------------------------------
         this.btn_info_load.addActionListener(new ActionListener() {
@@ -247,7 +247,7 @@ public class MainWindow extends MainWindow_GUI {
         this.btn_cart_pay.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (CartItem cartItem : backend.getAllCartItems()) {
+                for (Item cartItem : backend.getAllCartItems()) {
                     Product product = backend.getProduct(cartItem.getName());
 
                     int stock = product.getStock();
@@ -280,17 +280,17 @@ public class MainWindow extends MainWindow_GUI {
     }
 
     private void updateInfo() {
-        PersonalData personalData = this.getBackend().getPersonalData();
+        InformationalData informationalData = this.getBackend().getInformationalData();
 
-        this.txt_info_cnpj.setText(personalData.getCnpj());
-        this.txt_info_city.setText(personalData.getCity());
-        this.txt_info_email.setText(personalData.getEmail());
-        this.txt_info_address.setText(personalData.getAddress());
-        this.txt_info_telephone.setText(personalData.getTelephone());
+        this.txt_info_cnpj.setText(informationalData.getCnpj());
+        this.txt_info_city.setText(informationalData.getCity());
+        this.txt_info_email.setText(informationalData.getEmail());
+        this.txt_info_address.setText(informationalData.getAddress());
+        this.txt_info_telephone.setText(informationalData.getTelephone());
     }
 
     private void updateDataList() {
-        Backend backend = this.getBackend();
+        Bakery backend = this.getBackend();
 
         this.list_data.removeAll();
 
@@ -309,12 +309,12 @@ public class MainWindow extends MainWindow_GUI {
     }
 
     private void updateCartList() {
-        Backend backend = this.getBackend();
+        Bakery backend = this.getBackend();
 
         setPayableSum(0.0);
         this.list_cart.removeAll();
 
-        for (CartItem cartItem : backend.getAllCartItems()) {
+        for (Item cartItem : backend.getAllCartItems()) {
             String name = cartItem.getName();
             int quantity = cartItem.getQuantity();
 
@@ -332,7 +332,7 @@ public class MainWindow extends MainWindow_GUI {
     }
 
     private void updateProductChoices() {
-        Backend backend = this.getBackend();
+        Bakery backend = this.getBackend();
 
         this.choice_name.removeAll();
 
@@ -351,8 +351,8 @@ public class MainWindow extends MainWindow_GUI {
         }
     }
 
-    // Setters-----------------------------------------------------------------
-    private void setBackend(Backend backend) {
+    // Setters ----------------------------------------------------------------
+    private void setBackend(Bakery backend) {
         this.backend = backend;
     }
 
@@ -365,7 +365,7 @@ public class MainWindow extends MainWindow_GUI {
     }
 
     // Getters ----------------------------------------------------------------
-    private Backend getBackend() {
+    private Bakery getBackend() {
         return this.backend;
     }
 

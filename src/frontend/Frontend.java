@@ -1,12 +1,12 @@
 package frontend;
 
-import backend.Backend;
+import backend.Bakery;
 
 public class Frontend {
 
-    private Backend backend;
+    private Bakery backend;
 
-    public Frontend(Backend backend) {
+    public Frontend(Bakery backend) {
         this.setBackend(backend);
     }
 
@@ -15,13 +15,13 @@ public class Frontend {
         mainWindow.run();
     }
 
-    // Setters-----------------------------------------------------------------
-    private void setBackend(Backend backend) {
+    // Setters ----------------------------------------------------------------
+    private void setBackend(Bakery backend) {
         this.backend = backend;
     }
 
     // Getters ----------------------------------------------------------------
-    private Backend getBackend() {
+    private Bakery getBackend() {
         return this.backend;
     }
 

@@ -1,30 +1,21 @@
 package backend;
 
-import java.io.Serializable;
+// Classes filhas:
+//     - ProductOutsourced
+//     - ProductHomeMade
 
-public class Product implements Serializable {
+public abstract class Product {
 
     private String name = "";
-    private double price = 0.0;
+    private String barCode = "";
+    private double buyPrice = 0.0;
+    private double sellPrice = 0.0;
     private int stock = 0;
 
-    public Product(String name, double price, int stock) {
+    public Product(String name, double buyPrice, double sellPrice) {
         this.setName(name);
-        this.setPrice(price);
-        this.setStock(stock);
-    }
-
-    // Setters-----------------------------------------------------------------
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
+        this.setBuyPrice(buyPrice);
+        this.setSellPrice(sellPrice);
     }
 
     // Getters ----------------------------------------------------------------
@@ -32,12 +23,41 @@ public class Product implements Serializable {
         return this.name;
     }
 
-    public double getPrice() {
-        return this.price;
+    public String getBarCode() {
+        return this.barCode;
+    }
+
+    public double getBuyPrice() {
+        return this.buyPrice;
+    }
+
+    public double getSellPrice() {
+        return this.sellPrice;
     }
 
     public int getStock() {
         return this.stock;
+    }
+
+    // Setters ----------------------------------------------------------------
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setBarCode(String barCode) {
+        this.barCode = barCode;
+    }
+
+    public void setBuyPrice(double buyPrice) {
+        this.buyPrice = buyPrice;
+    }
+
+    public void setSellPrice(double sellPrice) {
+        this.sellPrice = sellPrice;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
 }

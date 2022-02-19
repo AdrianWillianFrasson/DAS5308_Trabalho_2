@@ -1,16 +1,32 @@
 // UFSC - DAS5308 - Trabalho Java
 // Adrian Willian Frasson (20100659)
 
-import backend.Backend;
+import backend.Bakery;
 import frontend.Frontend;
 
 public class App {
 
     public static void main(String[] args) throws Exception {
-        Backend backend = new Backend();
-        Frontend frontend = new Frontend(backend);
+        Bakery bakery = new Bakery();
 
-        frontend.run();
+        // Frontend frontend = new Frontend(bakery);
+        // frontend.run();
     }
 
 }
+
+/*
+ * - Cadastro de fornecedores
+ * - informações basicas
+ * 
+ * - Cadastro de produtos
+ * - ProdutoTercerizado (Marca e fornecedor), ProdutoHomemade (igredientes)
+ * - Preço de aquisição e venda
+ * 
+ * - Cadastro de clientes
+ * - ClienteNormal, ClienteVip (tem desconto)
+ * 
+ * - Cadastro de notas de compra/venda
+ * - mostra um balanço
+ * 
+ */
