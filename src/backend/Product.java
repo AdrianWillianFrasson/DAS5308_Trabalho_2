@@ -8,14 +8,14 @@ public abstract class Product {
 
     private String name = "";
     private String barCode = "";
-    private double buyPrice = 0.0;
     private double sellPrice = 0.0;
     private int stock = 0;
 
-    public Product(String name, double buyPrice, double sellPrice) {
+    public Product(String name, String barCode, double sellPrice, int stock) {
         this.setName(name);
-        this.setBuyPrice(buyPrice);
+        this.setBarCode(barCode);
         this.setSellPrice(sellPrice);
+        this.setStock(stock);
     }
 
     // Getters ----------------------------------------------------------------
@@ -25,10 +25,6 @@ public abstract class Product {
 
     public String getBarCode() {
         return this.barCode;
-    }
-
-    public double getBuyPrice() {
-        return this.buyPrice;
     }
 
     public double getSellPrice() {
@@ -48,16 +44,21 @@ public abstract class Product {
         this.barCode = barCode;
     }
 
-    public void setBuyPrice(double buyPrice) {
-        this.buyPrice = buyPrice;
-    }
-
     public void setSellPrice(double sellPrice) {
         this.sellPrice = sellPrice;
     }
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    // ------------------------------------------------------------------------
+    public String toString() {
+        return String.format("Nome: %6s | Cod.: %3s | P.V.: %5.2f$ | Estoque: %3d",
+                this.getName(),
+                this.getBarCode(),
+                this.getSellPrice(),
+                this.getStock());
     }
 
 }

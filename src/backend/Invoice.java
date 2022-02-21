@@ -1,27 +1,32 @@
 package backend;
 
 import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 public class Invoice {
 
-    private String code = "";
+    private static int nextCode = 100;
+
+    private int code = 0;
     private String date = "";
-    private InformationalData info;
+    private Client client = new Client("", "");
     private ArrayList<Item> items = new ArrayList<Item>();
 
-    public Invoice(String code, InformationalData info) {
-        this.setCode(code);
-        this.setInfo(info);
+    public Invoice(Client client) {
+        this.setCode(nextCode++);
+        this.setClient(client);
+        this.setDate(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(LocalDateTime.now()));
     }
 
-    public Invoice(String code, String date, InformationalData info) {
-        this.setCode(code);
-        this.setInfo(info);
+    public Invoice(Client client, String date) {
+        this.setCode(nextCode++);
+        this.setClient(client);
         this.setDate(date);
     }
 
     // Getters ----------------------------------------------------------------
-    public String getCode() {
+    public int getCode() {
         return this.code;
     }
 
@@ -29,16 +34,16 @@ public class Invoice {
         return this.date;
     }
 
-    public InformationalData getInfo() {
-        return this.info;
+    public Client getClient() {
+        return this.client;
     }
 
-    public ArrayList<Item> getItems() {
+    public ArrayList<Item> getAllItems() {
         return this.items;
     }
 
     // Setters ----------------------------------------------------------------
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
@@ -46,8 +51,8 @@ public class Invoice {
         this.date = date;
     }
 
-    public void setInfo(InformationalData info) {
-        this.info = info;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     // ------------------------------------------------------------------------
@@ -63,16 +68,24 @@ public class Invoice {
     public double totalPrice() {
         double totalPrice = 0.0;
 
-        for (Item item : this.items) {
+        for (Item item : this.getAllItems()) {
             totalPrice += item.getPrice() * item.getQuantity();
         }
 
-        if (this.info instanceof ClientVip) {
-            ClientVip clientVip = (ClientVip) this.info;
-            totalPrice *= 1 - clientVip.getDiscount() / 100;
+        if (this.client instanceof ClientVip) {
+            ClientVip clientVip = (ClientVip) this.client;
+            totalPrice *= 1.0 - clientVip.getDiscount() / 100.0;
         }
 
         return totalPrice;
+    }
+
+    // ------------------------------------------------------------------------
+    public String toString() {
+        return String.format("Cod.: %3d | Data: %s | Preco: %.2f$",
+                this.getCode(),
+                this.getDate(),
+                this.totalPrice());
     }
 
 }

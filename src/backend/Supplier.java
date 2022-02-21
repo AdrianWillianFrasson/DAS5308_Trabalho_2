@@ -9,8 +9,9 @@ public class Supplier implements InformationalData {
     private String address = "";
     private String telephone = "";
 
-    public Supplier(String name) {
+    public Supplier(String name, String cnpj) {
         this.setName(name);
+        this.setCnpj(cnpj);
     }
 
     // Getters ----------------------------------------------------------------
@@ -66,6 +67,11 @@ public class Supplier implements InformationalData {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    // ------------------------------------------------------------------------
+    public String toString() {
+        return String.format("Nome: %10s | CNPJ: %10s", this.getName(), this.getCnpj());
     }
 
 }

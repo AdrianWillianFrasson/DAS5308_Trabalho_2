@@ -4,8 +4,8 @@ public class ClientVip extends Client {
 
     private int discount = 0; // Em %
 
-    public ClientVip(String name, int discount) {
-        super(name);
+    public ClientVip(String name, String cpf, int discount) {
+        super(name, cpf);
         this.setDiscount(discount);
     }
 
@@ -17,6 +17,11 @@ public class ClientVip extends Client {
     // Setters ----------------------------------------------------------------
     public void setDiscount(int discount) {
         this.discount = discount;
+    }
+
+    // ------------------------------------------------------------------------
+    public String toString() {
+        return String.format(super.toString() + " | Client VIP | Disc.: %d", this.getDiscount()) + "%";
     }
 
 }

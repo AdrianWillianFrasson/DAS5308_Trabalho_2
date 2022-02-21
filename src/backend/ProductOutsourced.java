@@ -3,11 +3,13 @@ package backend;
 public class ProductOutsourced extends Product {
 
     private String brand = "";
-    private Supplier supplier = new Supplier("");
+    private Supplier supplier = new Supplier("", "");
 
-    public ProductOutsourced(String name, double buyPrice, double sellPrice, Supplier supplier) {
-        super(name, buyPrice, sellPrice);
+    public ProductOutsourced(String name, String barCode, double sellPrice, int stock, Supplier supplier,
+            String brand) {
+        super(name, barCode, sellPrice, stock);
         this.setSupplier(supplier);
+        this.setBrand(brand);
     }
 
     // Getters ----------------------------------------------------------------
@@ -26,6 +28,12 @@ public class ProductOutsourced extends Product {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    // ------------------------------------------------------------------------
+    public String toString() {
+        return String.format(super.toString() + " | Tipo: Tercerizado | Fornecedor: %s",
+                this.getSupplier().getName());
     }
 
 }

@@ -12,8 +12,9 @@ public class Client implements InformationalData {
     private String address = "";
     private String telephone = "";
 
-    public Client(String name) {
+    public Client(String name, String cpf) {
         this.setName(name);
+        this.setCpf(cpf);
     }
 
     // Getters ----------------------------------------------------------------
@@ -69,6 +70,11 @@ public class Client implements InformationalData {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    // ------------------------------------------------------------------------
+    public String toString() {
+        return String.format("Nome: %10s | CPF: %10s", this.getName(), this.getCpf());
     }
 
 }
