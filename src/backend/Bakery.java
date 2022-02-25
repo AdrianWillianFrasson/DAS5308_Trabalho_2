@@ -7,25 +7,16 @@ import java.util.HashMap;
 public class Bakery {
 
     private HashMap<String, Supplier> suppliers = new HashMap<String, Supplier>();
-    private HashMap<String, Product> products = new HashMap<String, Product>();
     private HashMap<String, Client> clients = new HashMap<String, Client>();
     private ArrayList<Invoice> invoices = new ArrayList<Invoice>();
 
-    // Adicionar toStringDetalhado
-    // Adicionar composição com a classe InformationalData
-    // Items adicionados a Invoices deve bater com os produtos
-
     // Getters ----------------------------------------------------------------
-    // public InformationalData getInformationalData() {
-    // return this.informationalData;
-    // }
+    public Collection<Product> getAllProducts() {
+        return ProductsManager.getAllProducts();
+    }
 
     public Collection<Supplier> getAllSuppliers() {
         return this.suppliers.values();
-    }
-
-    public Collection<Product> getAllProducts() {
-        return this.products.values();
     }
 
     public Collection<Client> getAllClients() {
@@ -36,12 +27,12 @@ public class Bakery {
         return this.invoices;
     }
 
-    public Supplier getSupplierByName(String name) {
-        return this.suppliers.get(name);
+    public Product getProductByName(String name) {
+        return ProductsManager.getProductByName(name);
     }
 
-    public Product getProductByName(String name) {
-        return this.products.get(name);
+    public Supplier getSupplierByName(String name) {
+        return this.suppliers.get(name);
     }
 
     public Client getClientByName(String name) {
@@ -58,12 +49,7 @@ public class Bakery {
     }
 
     public Product getProductByBarCode(String barCode) {
-        for (Product product : this.products.values()) {
-            if (product.getBarCode() == barCode) {
-                return product;
-            }
-        }
-        return null;
+        return ProductsManager.getProductByBarCode(barCode);
     }
 
     public Client getClientByCpf(String cpf) {
@@ -84,22 +70,13 @@ public class Bakery {
         return null;
     }
 
-    // Setters ----------------------------------------------------------------
-    // public void setInformationalData(InformationalData informationalData) {
-    // this.informationalData = informationalData;
-    // }
-
     // ------------------------------------------------------------------------
     public void addSupplier(Supplier supplier) {
         this.suppliers.put(supplier.getName(), supplier);
     }
 
-    public void addProduct(ProductOutsourced product) {
-        this.products.put(product.getName(), product);
-    }
-
-    public void addProduct(ProductHomeMade product) {
-        this.products.put(product.getName(), product);
+    public void addProduct(Product product) {
+        ProductsManager.addProduct(product);
     }
 
     public void addClient(Client client) {
@@ -110,15 +87,15 @@ public class Bakery {
         this.invoices.add(invoice);
     }
 
-    public void popSupplier(String name) {
+    public void popSupplierByName(String name) {
         this.suppliers.remove(name);
     }
 
-    public void popProduct(String name) {
-        this.products.remove(name);
+    public void popProductByName(String name) {
+        ProductsManager.popProductByName(name);
     }
 
-    public void popClient(String name) {
+    public void popClientByName(String name) {
         this.clients.remove(name);
     }
 

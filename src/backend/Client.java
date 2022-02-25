@@ -3,14 +3,10 @@ package backend;
 // Classes filhas:
 //     - ClientVip
 
-public class Client implements InformationalData {
+public class Client {
 
-    private String name = "";
+    private InformationalData information = new InformationalData();
     private String cpf = "";
-    private String city = "";
-    private String email = "";
-    private String address = "";
-    private String telephone = "";
 
     public Client(String name, String cpf) {
         this.setName(name);
@@ -18,63 +14,69 @@ public class Client implements InformationalData {
     }
 
     // Getters ----------------------------------------------------------------
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
     public String getCpf() {
         return this.cpf;
     }
 
-    @Override
+    public String getName() {
+        return this.information.getName();
+    }
+
     public String getCity() {
-        return this.city;
+        return this.information.getCity();
     }
 
-    @Override
     public String getEmail() {
-        return this.email;
+        return this.information.getEmail();
     }
 
-    @Override
     public String getAddress() {
-        return this.address;
+        return this.information.getAddress();
     }
 
-    @Override
     public String getTelephone() {
-        return this.telephone;
+        return this.information.getTelephone();
     }
 
     // Setters ----------------------------------------------------------------
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
+    public void setName(String name) {
+        this.information.setName(name);
+    }
+
     public void setCity(String city) {
-        this.city = city;
+        this.information.setCity(city);
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.information.setEmail(email);
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        this.information.setAddress(address);
     }
 
     public void setTelephone(String telephone) {
-        this.telephone = telephone;
+        this.information.setTelephone(telephone);
     }
 
     // ------------------------------------------------------------------------
     public String toString() {
-        return String.format("Nome: %10s | CPF: %10s", this.getName(), this.getCpf());
+        return String.format("Nome: %7s | CPF: %14s", this.getName(), this.getCpf());
+    }
+
+    public String toStringDetailed() {
+        String text = String.format("|Nome: %s\n", this.getName())
+                + String.format("|CPF: %s\n", this.getCpf())
+                + String.format("|Cidade: %s\n", this.getCity())
+                + String.format("|Email: %s\n", this.getEmail())
+                + String.format("|Endereco: %s\n", this.getAddress())
+                + String.format("|Telefone: %s\n", this.getTelephone());
+
+        return text;
     }
 
 }

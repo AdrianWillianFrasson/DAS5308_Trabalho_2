@@ -29,4 +29,15 @@ public class ProductHomeMade extends Product {
         return String.format(super.toString() + " | Tipo: Proprio");
     }
 
+    public String toStringDetailed() {
+        String text = super.toStringDetailed()
+                + "|Ingredientes:\n";
+
+        for (Ingredient ingredient : this.getAllIngredients()) {
+            text += String.format("| - %s\n", ingredient.getName());
+        }
+
+        return text;
+    }
+
 }

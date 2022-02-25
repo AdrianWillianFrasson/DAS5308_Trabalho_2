@@ -61,4 +61,13 @@ public abstract class Product {
                 this.getStock());
     }
 
+    public String toStringDetailed() {
+        String text = String.format("|Nome: %s\n", this.getName())
+                + String.format("|Codigo de barras: %s\n", this.getBarCode())
+                + String.format("|Preco de venda: %.2f$\n", this.getSellPrice())
+                + String.format("|Quantidade em estoque: %d\n", this.getStock());
+
+        return text;
+    }
+
 }

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class Invoice {
 
-    private static int nextCode = 100;
+    private static int nextCode = 100;  // UUID
 
     private int code = 0;
     private String date = "";
@@ -56,8 +56,25 @@ public class Invoice {
     }
 
     // ------------------------------------------------------------------------
-    public void addItem(Item item) {
-        this.items.add(item);
+    public void addItem(String name, int quantity) {
+        Product product = ProductsManager.getProductByName(name);
+
+        // Caso o produto não exista
+        if (product == null) {
+            return;
+        }
+
+        // Caso o cliente tente comprar mais do que existe em estoque
+        if (quantity > product.getStock()) {
+            quantity = product.getStock();
+        }
+
+        if (quantity != 0) {
+            Item item = new Item(name, product.getSellPrice(), quantity);
+            this.items.add(item);
+
+            product.setStock(product.getStock() - quantity);
+        }
     }
 
     public void popItem(int index) {
@@ -86,6 +103,26 @@ public class Invoice {
                 this.getCode(),
                 this.getDate(),
                 this.totalPrice());
+    }
+
+    public String toStringDetailed() {
+        String text = String.format("|Codigo: %d\n", this.getCode())
+                + String.format("|Data: %s\n", this.getDate())
+                + String.format("|Cliente: %s\n", this.getClient().getName())
+                + String.format("|Preco total: %.2f$\n", this.totalPrice());
+
+        if (this.client instanceof ClientVip) {
+            ClientVip clientVip = (ClientVip) this.client;
+            text += String.format("|Desconto aplicado: %d", clientVip.getDiscount()) + "%\n";
+        }
+
+        text += "|Itens comprados:\n";
+
+        for (Item item : this.getAllItems()) {
+            text += String.format("| - %7s | P: %.2f$ | Q: %d\n", item.getName(), item.getPrice(), item.getQuantity());
+        }
+
+        return text;
     }
 
 }
