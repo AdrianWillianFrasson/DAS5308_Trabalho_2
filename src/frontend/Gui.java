@@ -102,24 +102,24 @@ public class Gui extends MainWindow {
 
                 if (name.isBlank() || cnpj.isBlank()) {
                     page_supplier.txtArea.setText("Nome e CNPJ devem ser fornecidos!");
-
-                } else {
-                    Supplier supplier = new Supplier(name, cnpj);
-
-                    supplier.setCity(city);
-                    supplier.setEmail(email);
-                    supplier.setAddress(address);
-                    supplier.setTelephone(telephone);
-
-                    bakery.addSupplier(supplier);
-
-                    page_supplier.txt_name.setText("");
-                    page_supplier.txt_cnpj.setText("");
-                    page_supplier.txt_city.setText("");
-                    page_supplier.txt_email.setText("");
-                    page_supplier.txt_address.setText("");
-                    page_supplier.txt_telephone.setText("");
+                    return;
                 }
+
+                Supplier supplier = new Supplier(name, cnpj);
+
+                supplier.setCity(city);
+                supplier.setEmail(email);
+                supplier.setAddress(address);
+                supplier.setTelephone(telephone);
+
+                bakery.addSupplier(supplier);
+
+                page_supplier.txt_name.setText("");
+                page_supplier.txt_cnpj.setText("");
+                page_supplier.txt_city.setText("");
+                page_supplier.txt_email.setText("");
+                page_supplier.txt_address.setText("");
+                page_supplier.txt_telephone.setText("");
             }
         });
 
@@ -133,6 +133,131 @@ public class Gui extends MainWindow {
             }
         });
 
+        // Client Page --------------------------------------------------------
+        this.page_client.btn_searchByName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = page_client.txt_search.getText().trim();
+                Client client = bakery.getClientByName(name);
+
+                if (client != null) {
+                    page_client.txtArea.setText("-> Cliente com o Nome: " + name +
+                            "\n\n" + client.toStringDetailed());
+
+                } else {
+                    page_client.txtArea.setText("Nenhum Cliente encontrado com o Nome: " + name + "\n");
+                }
+            }
+        });
+
+        this.page_client.btn_searchByCPF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cpf = page_client.txt_search.getText().trim();
+                Client client = bakery.getClientByCpf(cpf);
+
+                if (client != null) {
+                    page_client.txtArea.setText("-> Cliente com o CPF: " + cpf +
+                            "\n\n" + client.toStringDetailed());
+
+                } else {
+                    page_client.txtArea.setText("Nenhum Cliente encontrado com o CPF: " + cpf + "\n");
+                }
+            }
+        });
+
+        this.page_client.btn_showAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                page_client.txtArea.setText(bakery.printAllClients());
+            }
+        });
+
+        this.page_client.clientType.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                switch (page_client.clientType.getSelectedItem()) {
+                    case "Normal":
+                        page_client.txt_discount.setEnabled(false);
+                        page_client.txt_discount.setText("");
+                        break;
+
+                    case "Vip":
+                        page_client.txt_discount.setEnabled(true);
+                        page_client.txt_discount.setText("0");
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+
+        this.page_client.btn_add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = page_client.txt_name.getText().trim();
+                String cpf = page_client.txt_cpf.getText().trim();
+                String city = page_client.txt_city.getText().trim();
+                String email = page_client.txt_email.getText().trim();
+                String address = page_client.txt_address.getText().trim();
+                String telephone = page_client.txt_telephone.getText().trim();
+                String discount = page_client.txt_discount.getText().trim();
+
+                if (name.isBlank() || cpf.isBlank()) {
+                    page_client.txtArea.setText("Nome e CPF devem ser fornecidos!");
+                    return;
+                }
+
+                Client client;
+
+                switch (page_client.clientType.getSelectedItem()) {
+                    case "Normal":
+                        client = new Client(name, cpf);
+                        break;
+
+                    case "Vip":
+                        try {
+                            int discount_int = Integer.parseInt(discount);
+                            client = new ClientVip(name, cpf, discount_int);
+
+                        } catch (Exception error) {
+                            page_client.txtArea.setText("Desconto invalido!");
+                            return;
+                        }
+                        break;
+
+                    default:
+                        client = new Client(name, cpf);
+                        break;
+                }
+
+                client.setCity(city);
+                client.setEmail(email);
+                client.setAddress(address);
+                client.setTelephone(telephone);
+
+                bakery.addClient(client);
+
+                page_client.txt_name.setText("");
+                page_client.txt_cpf.setText("");
+                page_client.txt_city.setText("");
+                page_client.txt_email.setText("");
+                page_client.txt_address.setText("");
+                page_client.txt_telephone.setText("");
+                page_client.txt_discount.setText("");
+            }
+        });
+
+        this.page_client.btn_pop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = page_client.txt_namePop.getText().trim();
+
+                bakery.popClientByName(name);
+                page_client.txt_namePop.setText("");
+            }
+        });
     }
 
     // Setters ----------------------------------------------------------------

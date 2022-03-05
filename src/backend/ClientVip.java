@@ -16,6 +16,10 @@ public class ClientVip extends Client {
 
     // Setters ----------------------------------------------------------------
     public void setDiscount(int discount) {
+        if (discount > 100) {
+            discount = 100;
+        }
+
         this.discount = discount;
     }
 

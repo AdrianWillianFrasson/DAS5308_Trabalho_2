@@ -5,7 +5,7 @@ import java.awt.*;
 public class PageClient extends Panel {
 
     public Button btn_searchByName = new Button("Procurar por Nome");
-    public Button btn_searchByCNPJ = new Button("Procurar por CPF");
+    public Button btn_searchByCPF = new Button("Procurar por CPF");
     public Button btn_showAll = new Button("Mostrar Todos");
     public Button btn_add = new Button("Cadastrar Cliente");
     public Button btn_pop = new Button("Remover Cliente por Nome");
@@ -27,7 +27,7 @@ public class PageClient extends Panel {
     public Label lbl_address = new Label("Endereco:");
     public Label lbl_telephone = new Label("Telefone:");
     public Label lbl_clientType = new Label("Tipo de Cliente:");
-    public Label lbl_discount = new Label("Desconto:");
+    public Label lbl_discount = new Label("Desconto [%]:");
 
     public TextArea txtArea = new TextArea();
 
@@ -67,7 +67,7 @@ public class PageClient extends Panel {
         c.weightx = 1.0;
         c.gridy = 0;
         c.gridx = 2;
-        this.add(this.btn_searchByCNPJ, c);
+        this.add(this.btn_searchByCPF, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
@@ -233,6 +233,7 @@ public class PageClient extends Panel {
         c.weightx = 1.0;
         c.gridy = 5;
         c.gridx = 3;
+        this.txt_discount.setEnabled(false);
         this.add(this.txt_discount, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;

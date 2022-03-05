@@ -141,11 +141,11 @@ public class Bakery {
         String text = "";
         int number = 1;
 
-        System.out.println("-------------------Clientes-----------------------\n");
+        text += "-------------------Clientes-----------------------\n";
         for (Client client : this.getAllClients()) {
-            System.out.println(number++ + " | " + client.toString());
+            text += number++ + " | " + client.toString() + "\n";
         }
-        System.out.println("--------------------------------------------------\n");
+        text += "--------------------------------------------------\n";
 
         return text;
     }
