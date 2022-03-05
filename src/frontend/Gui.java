@@ -21,7 +21,7 @@ public class Gui extends MainWindow {
     private void createListeners() {
         Bakery bakery = this.getBakery();
 
-        // --------------------------------------------------------------------
+        // Menu ---------------------------------------------------------------
         this.btn_menu_supplier.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -29,7 +29,6 @@ public class Gui extends MainWindow {
             }
         });
 
-        // --------------------------------------------------------------------
         this.btn_menu_invoice.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,7 +36,6 @@ public class Gui extends MainWindow {
             }
         });
 
-        // --------------------------------------------------------------------
         this.btn_menu_product.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -45,7 +43,6 @@ public class Gui extends MainWindow {
             }
         });
 
-        // --------------------------------------------------------------------
         this.btn_menu_client.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
