@@ -1,269 +1,87 @@
 package frontend;
 
-import frontend.GUI.MainWindow_GUI;
-
 import java.awt.*;
 import java.awt.event.*;
 
-import backend.Bakery;
-import backend.Product;
-import backend.Item;
-import backend.InformationalData;
+public abstract class MainWindow extends Frame {
 
-public class MainWindow extends MainWindow_GUI {
+    // Components -------------------------------------------------------------
+    public Panel panel_pages = new Panel();
+    public CardLayout card_layout = new CardLayout();
 
-    private Bakery backend;
-    private String textFilter = "";
-    private double payableSum = 0.0;
+    public Panel page_supplier = new PageSupplier();
+    public Panel page_invoice = new Panel();
+    public Panel page_product = new Panel();
+    public Panel page_client = new Panel();
 
-    MainWindow(Bakery backend) {
-        this.setBackend(backend);
-    }
+    public Button btn_menu_supplier = new Button("Fornecedores");
+    public Button btn_menu_invoice = new Button("Notas de Venda");
+    public Button btn_menu_product = new Button("Produtos");
+    public Button btn_menu_client = new Button("Clientes");
 
-    private void createListeners() {
-        Bakery backend = this.getBackend();
-        InformationalData informationalData = backend.getInformationalData();
-
-        // --------------------------------------------------------------------
-        this.btn_menu_info.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateInfo();
-                card_layout.show(panel_pages, "info");
-            }
-        });
+    public MainWindow() {
+        this.setTitle("Gerenciador de Padaria");
+        this.setLayout(new GridBagLayout());
+        this.setBackground(new Color(246, 246, 246));
+        this.setFont(new Font("SansSerif", Font.PLAIN, 16));
 
         // --------------------------------------------------------------------
-        this.btn_menu_data.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateDataList();
-                card_layout.show(panel_pages, "data");
-            }
-        });
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5, 5, 5, 5);
 
-        // --------------------------------------------------------------------
-        this.btn_menu_cart.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateProductChoices();
-                updateCartList();
-                card_layout.show(panel_pages, "cart");
-            }
-        });
+        c.fill = GridBagConstraints.BOTH;
+        c.gridheight = 1;
+        c.gridwidth = 4;
+        c.weighty = 1.0;
+        c.weightx = 1.0;
+        c.gridy = 0;
+        c.gridx = 0;
+        this.panel_pages.setLayout(this.card_layout);
+        this.panel_pages.add("supplier", this.page_supplier);
+        this.panel_pages.add("invoice", this.page_invoice);
+        this.panel_pages.add("product", this.page_product);
+        this.panel_pages.add("client", this.page_client);
+        this.add(this.panel_pages, c);
 
-        // --------------------------------------------------------------------
-        interface GenericLambda {
-            public void run(String text);
-        }
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 1;
+        c.gridx = 0;
+        this.btn_menu_supplier.setBackground(Color.LIGHT_GRAY);
+        this.add(this.btn_menu_supplier, c);
 
-        class GenericTextListener implements TextListener {
-            public GenericLambda lambda;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 1;
+        c.gridx = 1;
+        this.btn_menu_client.setBackground(Color.LIGHT_GRAY);
+        this.add(this.btn_menu_client, c);
 
-            public GenericTextListener(GenericLambda lambda) {
-                this.lambda = lambda;
-            }
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 1;
+        c.gridx = 2;
+        this.btn_menu_product.setBackground(Color.LIGHT_GRAY);
+        this.add(this.btn_menu_product, c);
 
-            @Override
-            public void textValueChanged(TextEvent e) {
-                TextField textField = (TextField) e.getSource();
-                this.lambda.run(textField.getText());
-            }
-        }
-
-        this.txt_info_cnpj.addTextListener(new GenericTextListener((v) -> informationalData.setCnpj(v)));
-        this.txt_info_city.addTextListener(new GenericTextListener((v) -> informationalData.setCity(v)));
-        this.txt_info_email.addTextListener(new GenericTextListener((v) -> informationalData.setEmail(v)));
-        this.txt_info_address.addTextListener(new GenericTextListener((v) -> informationalData.setAddress(v)));
-        this.txt_info_telephone.addTextListener(new GenericTextListener((v) -> informationalData.setTelephone(v)));
-
-        // --------------------------------------------------------------------
-        this.btn_info_load.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FileDialog fileDialog = new FileDialog(new Frame(), "Carregar projeto...", FileDialog.LOAD);
-
-                fileDialog.setFile("*.project");
-                fileDialog.setVisible(true);
-
-                String fileName = fileDialog.getFile();
-                String filePath = fileDialog.getDirectory();
-
-                if (fileName == null || filePath == null) {
-                    return;
-                }
-
-                String completePath = filePath + fileName;
-
-                backend.loadProject(completePath);
-                updateInfo();
-            }
-        });
-
-        // --------------------------------------------------------------------
-        this.btn_info_save.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FileDialog fileDialog = new FileDialog(new Frame(), "Salvar projeto...", FileDialog.SAVE);
-
-                fileDialog.setFile("*.project");
-                fileDialog.setVisible(true);
-
-                String fileName = fileDialog.getFile();
-                String filePath = fileDialog.getDirectory();
-
-                if (fileName == null || filePath == null) {
-                    return;
-                }
-
-                String completePath = filePath + fileName;
-
-                backend.saveProject(completePath);
-            }
-        });
-
-        // --------------------------------------------------------------------
-        this.txt_data_search.addTextListener(new GenericTextListener((v) -> {
-            setTextFilter(v);
-            updateDataList();
-        }));
-
-        // --------------------------------------------------------------------
-        this.btn_data_add.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = txt_data_name.getText().replace("|", "-").trim();
-                String price = txt_data_price.getText().trim();
-                String stock = txt_data_stock.getText().trim();
-
-                if (name.isEmpty()) {
-                    System.out.println("Nome invalido");
-                    return;
-                }
-
-                try {
-                    double price_d = Double.parseDouble(price);
-                    int stock_i = Integer.parseInt(stock);
-
-                    backend.addProduct(name, price_d, stock_i);
-
-                    txt_data_name.setText("");
-                    txt_data_price.setText("");
-                    txt_data_stock.setText("");
-
-                } catch (NumberFormatException err) {
-                    System.out.println("Preco/Estoque invalido");
-
-                }
-
-                txt_data_search.setText("");
-                setTextFilter("");
-                updateDataList();
-            }
-        });
-
-        // --------------------------------------------------------------------
-        this.btn_data_pop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = list_data.getSelectedItem();
-
-                if (text == null) {
-                    return;
-                }
-
-                String name = text.split("\\|")[0].trim();
-
-                backend.popProduct(name);
-                updateDataList();
-            }
-        });
-
-        // --------------------------------------------------------------------
-        this.choice_name.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                String name = choice_name.getSelectedItem();
-
-                if (name != null) {
-                    Product product = backend.getProduct(name);
-                    txt_cart_price.setText(String.valueOf(product.getPrice()));
-                    txt_cart_stock.setText(String.valueOf(product.getStock()));
-                }
-            }
-        });
-
-        // --------------------------------------------------------------------
-        this.btn_cart_add.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = choice_name.getSelectedItem();
-
-                if (name == null) {
-                    return;
-                }
-
-                Product product = backend.getProduct(name);
-
-                try {
-                    int quantity = Integer.parseInt(txt_cart_quantity.getText().trim());
-
-                    if (quantity > product.getStock()) {
-                        quantity = product.getStock();
-                        System.out.println("Estoque insuficiente");
-                    }
-
-                    backend.addCartItem(name, quantity);
-
-                    txt_cart_quantity.setText("");
-
-                } catch (NumberFormatException err) {
-                    System.out.println("Quantidade invalida");
-
-                }
-
-                updateCartList();
-            }
-        });
-
-        // --------------------------------------------------------------------
-        this.btn_cart_pop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = list_cart.getSelectedItem();
-
-                if (text == null) {
-                    return;
-                }
-
-                String name = text.split("\\|")[0].trim();
-
-                backend.popCartItem(name);
-                updateCartList();
-            }
-        });
-
-        // --------------------------------------------------------------------
-        this.btn_cart_pay.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Item cartItem : backend.getAllCartItems()) {
-                    Product product = backend.getProduct(cartItem.getName());
-
-                    int stock = product.getStock();
-                    product.setStock(stock - cartItem.getQuantity());
-                }
-
-                double payableSum = getPayableSum();
-
-                txt_cart_quantity.setText("");
-                backend.removeAllCartItems();
-                updateProductChoices();
-                updateCartList();
-
-                new MessageDialog(new Frame()).run(String.format("Total pagado: %f", payableSum));
-            }
-        });
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+        c.weighty = 0.0;
+        c.weightx = 1.0;
+        c.gridy = 1;
+        c.gridx = 3;
+        this.btn_menu_invoice.setBackground(Color.LIGHT_GRAY);
+        this.add(this.btn_menu_invoice, c);
 
         // --------------------------------------------------------------------
         this.addWindowListener(new WindowAdapter() {
@@ -274,107 +92,14 @@ public class MainWindow extends MainWindow_GUI {
         });
     }
 
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(1080, 720);
+    }
+
     public void run() {
-        this.createListeners();
-        super.run();
-    }
-
-    private void updateInfo() {
-        InformationalData informationalData = this.getBackend().getInformationalData();
-
-        this.txt_info_cnpj.setText(informationalData.getCnpj());
-        this.txt_info_city.setText(informationalData.getCity());
-        this.txt_info_email.setText(informationalData.getEmail());
-        this.txt_info_address.setText(informationalData.getAddress());
-        this.txt_info_telephone.setText(informationalData.getTelephone());
-    }
-
-    private void updateDataList() {
-        Bakery backend = this.getBackend();
-
-        this.list_data.removeAll();
-
-        backend.getAllProducts().forEach(product -> {
-            String name = product.getName();
-            String price = String.valueOf(product.getPrice());
-            String stock = String.valueOf(product.getStock());
-
-            String text = String.format("%s | $: %s | Estoque: %s", name, price, stock);
-
-            if (text.contains(getTextFilter())) {
-                this.list_data.add(text);
-            }
-
-        });
-    }
-
-    private void updateCartList() {
-        Bakery backend = this.getBackend();
-
-        setPayableSum(0.0);
-        this.list_cart.removeAll();
-
-        for (Item cartItem : backend.getAllCartItems()) {
-            String name = cartItem.getName();
-            int quantity = cartItem.getQuantity();
-
-            Product product = backend.getProduct(name);
-            double price = product.getPrice();
-
-            setPayableSum(getPayableSum() + price * quantity);
-
-            String text = String.format("%s | $:%f | Quantidade: %d", name, price, quantity);
-
-            this.list_cart.add(text);
-        }
-
-        this.lbl_cart_total.setText(String.format("Total a pagar: $%f", getPayableSum()));
-    }
-
-    private void updateProductChoices() {
-        Bakery backend = this.getBackend();
-
-        this.choice_name.removeAll();
-
-        backend.getAllProducts().forEach(product -> {
-            this.choice_name.add(product.getName());
-        });
-
-        String name = this.choice_name.getSelectedItem();
-        this.txt_cart_price.setText("");
-        this.txt_cart_stock.setText("");
-
-        if (name != null) {
-            Product product = backend.getProduct(name);
-            this.txt_cart_price.setText(String.valueOf(product.getPrice()));
-            this.txt_cart_stock.setText(String.valueOf(product.getStock()));
-        }
-    }
-
-    // Setters ----------------------------------------------------------------
-    private void setBackend(Bakery backend) {
-        this.backend = backend;
-    }
-
-    private void setTextFilter(String textFilter) {
-        this.textFilter = textFilter;
-    }
-
-    private void setPayableSum(double payableSum) {
-        this.payableSum = payableSum;
-    }
-
-    // Getters ----------------------------------------------------------------
-    private Bakery getBackend() {
-        return this.backend;
-    }
-
-    private String getTextFilter() {
-        return this.textFilter;
-    }
-
-    private double getPayableSum() {
-        return this.payableSum;
+        this.pack();
+        this.setVisible(true);
     }
 
 }

@@ -7,11 +7,11 @@
  * 
  * - Cadastro de produtos
  *    - ProdutoTercerizado (Marca e fornecedor)
- *    - ProdutoPróprio (igredientes)
+ *    - ProdutoPróprio (Igredientes)
  * 
  * - Cadastro de clientes
  *    - ClienteNormal
- *    - ClienteVip (tem desconto)
+ *    - ClienteVip (Tem desconto)
  * 
  * - Cadastro de notas de venda
  *    - Vinculada a um cliente
