@@ -18,7 +18,7 @@ public class ProductsManager {
 
     public static Product getProductByBarCode(String barCode) {
         for (Product product : products.values()) {
-            if (product.getBarCode() == barCode) {
+            if (product.getBarCode().equals(barCode)) {
                 return product;
             }
         }

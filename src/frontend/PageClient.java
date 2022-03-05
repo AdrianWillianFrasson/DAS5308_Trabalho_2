@@ -86,6 +86,7 @@ public class PageClient extends Panel {
         c.gridy = 1;
         c.gridx = 0;
         this.txtArea.setEditable(false);
+        this.txtArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
         this.add(this.txtArea, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;

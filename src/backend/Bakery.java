@@ -41,7 +41,7 @@ public class Bakery {
 
     public Supplier getSupplierByCnpj(String cnpj) {
         for (Supplier supplier : this.suppliers.values()) {
-            if (supplier.getCnpj() == cnpj) {
+            if (supplier.getCnpj().equals(cnpj)) {
                 return supplier;
             }
         }
@@ -54,7 +54,7 @@ public class Bakery {
 
     public Client getClientByCpf(String cpf) {
         for (Client client : this.clients.values()) {
-            if (client.getCpf() == cpf) {
+            if (client.getCpf().equals(cpf)) {
                 return client;
             }
         }
@@ -111,41 +111,57 @@ public class Bakery {
     }
 
     // ------------------------------------------------------------------------
-    public void printAllSuppliers() {
+    public String printAllSuppliers() {
+        String text = "";
         int number = 1;
-        System.out.println("-----------------Fornecedores---------------------");
+
+        text += "-----------------Fornecedores---------------------\n";
         for (Supplier supplier : this.getAllSuppliers()) {
-            System.out.println(number++ + " | " + supplier.toString());
+            text += number++ + " | " + supplier.toString() + "\n";
         }
-        System.out.println("--------------------------------------------------\n");
+        text += "--------------------------------------------------\n";
+
+        return text;
     }
 
-    public void printAllProducts() {
+    public String printAllProducts() {
+        String text = "";
         int number = 1;
-        System.out.println("-------------------Produtos-----------------------");
+
+        System.out.println("-------------------Produtos-----------------------\n");
         for (Product product : this.getAllProducts()) {
             System.out.println(number++ + " | " + product.toString());
         }
         System.out.println("--------------------------------------------------\n");
+
+        return text;
     }
 
-    public void printAllClients() {
+    public String printAllClients() {
+        String text = "";
         int number = 1;
-        System.out.println("-------------------Clientes-----------------------");
+
+        System.out.println("-------------------Clientes-----------------------\n");
         for (Client client : this.getAllClients()) {
             System.out.println(number++ + " | " + client.toString());
         }
         System.out.println("--------------------------------------------------\n");
+
+        return text;
     }
 
-    public void printAllInvoices() {
+    public String printAllInvoices() {
+        String text = "";
         int number = 1;
-        System.out.println("-----------------Notas de Venda-------------------");
+
+        System.out.println("-----------------Notas de Venda-------------------\n");
         for (Invoice invoice : this.getAllInvoices()) {
             System.out.println(number++ + " | " + invoice.toString());
         }
-        System.out.println("--------------------------------------------------");
+        System.out.println("--------------------------------------------------\n");
         System.out.println(String.format("Lucro total: %.2f$\n", this.totalProfit()));
+
+        return text;
     }
 
 }
