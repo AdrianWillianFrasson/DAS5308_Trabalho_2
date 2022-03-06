@@ -38,46 +38,26 @@ public class PageSupplier extends Panel {
         c.insets = new Insets(5, 5, 5, 5);
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
         c.weightx = 1.0;
         c.gridy = 0;
         c.gridx = 0;
         this.add(this.txt_search, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 0;
         c.gridx = 1;
         this.add(this.btn_searchByName, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 0;
         c.gridx = 2;
         this.add(this.btn_searchByCNPJ, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 0;
         c.gridx = 3;
         this.add(this.btn_showAll, c);
 
         c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
         c.gridwidth = 4;
         c.weighty = 1.0;
-        c.weightx = 1.0;
         c.gridy = 1;
         c.gridx = 0;
         this.txtArea.setEditable(false);
@@ -85,136 +65,66 @@ public class PageSupplier extends Panel {
         this.add(this.txtArea, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
         c.gridwidth = 1;
         c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 2;
         c.gridx = 0;
         this.add(this.lbl_name, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 2;
         c.gridx = 1;
         this.add(this.txt_name, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 2;
         c.gridx = 2;
         this.add(this.lbl_address, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 2;
         c.gridx = 3;
         this.add(this.txt_address, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 3;
         c.gridx = 0;
         this.add(this.lbl_cnpj, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 3;
         c.gridx = 1;
         this.add(this.txt_cnpj, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 3;
         c.gridx = 2;
         this.add(this.lbl_city, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 3;
         c.gridx = 3;
         this.add(this.txt_city, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 4;
         c.gridx = 0;
         this.add(this.lbl_email, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 4;
         c.gridx = 1;
         this.add(this.txt_email, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 4;
         c.gridx = 2;
         this.add(this.lbl_telephone, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 4;
         c.gridx = 3;
         this.add(this.txt_telephone, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
         c.gridwidth = 4;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 5;
         c.gridx = 0;
         this.add(this.btn_add, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
         c.gridwidth = 2;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 6;
         c.gridx = 0;
         this.add(this.txt_namePop, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 2;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 6;
         c.gridx = 2;
         this.add(this.btn_pop, c);
