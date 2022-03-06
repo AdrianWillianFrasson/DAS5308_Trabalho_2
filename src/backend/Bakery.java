@@ -154,12 +154,12 @@ public class Bakery {
         String text = "";
         int number = 1;
 
-        System.out.println("-----------------Notas de Venda-------------------\n");
+        text += "-----------------Notas de Venda-------------------\n";
         for (Invoice invoice : this.getAllInvoices()) {
-            System.out.println(number++ + " | " + invoice.toString());
+            text += number++ + " | " + invoice.toString() + "\n";
         }
-        System.out.println("--------------------------------------------------\n");
-        System.out.println(String.format("Lucro total: %.2f$\n", this.totalProfit()));
+        text += "--------------------------------------------------\n";
+        text += String.format("Lucro total: %.2f$\n", this.totalProfit());
 
         return text;
     }

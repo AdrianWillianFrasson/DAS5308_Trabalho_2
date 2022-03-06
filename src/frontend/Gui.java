@@ -10,6 +10,7 @@ public class Gui extends MainWindow {
     private Bakery bakery;
 
     private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+    private ArrayList<Item> items = new ArrayList<Item>();
 
     public Gui(Bakery bakery) {
         this.setBakery(bakery);
@@ -381,7 +382,7 @@ public class Gui extends MainWindow {
                             calories_d);
 
                     ingredients.add(ingredient);
-                    updateingredientsList();
+                    updateIngredientsList();
 
                     page_product.txt_nameIngredient.setText("");
                     page_product.txt_carbohydrates.setText("0");
@@ -400,7 +401,7 @@ public class Gui extends MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ingredients.remove(ingredients.size() - 1);
-                updateingredientsList();
+                updateIngredientsList();
             }
         });
 
@@ -477,14 +478,50 @@ public class Gui extends MainWindow {
             }
         });
 
+        // Invoice Page -------------------------------------------------------
+        this.page_invoice.btn_searchByCode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String code = page_invoice.txt_search.getText().trim();
+                int code_int = 0;
+
+                try {
+                    code_int = Integer.parseInt(code);
+
+                    Invoice invoice = bakery.getInvoiceByCode(code_int);
+
+                    page_invoice.txtArea.setText("-> Nota de Venda com o Codigo: " + code_int +
+                            "\n\n" + invoice.toStringDetailed());
+
+                } catch (Exception error) {
+                    page_invoice.txtArea.setText("Nenhuma Nota de Venda encontrado com o Codigo: " + code + "\n");
+                }
+            }
+        });
+
+        this.page_invoice.btn_showAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                page_invoice.txtArea.setText(bakery.printAllInvoices());
+            }
+        });
+
     }
 
     // ------------------------------------------------------------------------
-    private void updateingredientsList() {
+    private void updateIngredientsList() {
         this.page_product.ingredients.removeAll();
 
         for (Ingredient ingredient : ingredients) {
             this.page_product.ingredients.add(ingredient.getName());
+        }
+    }
+
+    private void updateItemsList() {
+        this.page_invoice.items.removeAll();
+
+        for (Item item : items) {
+            this.page_invoice.items.add(item.getName());
         }
     }
 

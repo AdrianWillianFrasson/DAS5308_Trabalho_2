@@ -10,7 +10,7 @@ public abstract class MainWindow extends Frame {
     public CardLayout card_layout = new CardLayout();
 
     public PageSupplier page_supplier = new PageSupplier();
-    public Panel page_invoice = new Panel();
+    public PageInvoice page_invoice = new PageInvoice();
     public PageProduct page_product = new PageProduct();
     public PageClient page_client = new PageClient();
 
