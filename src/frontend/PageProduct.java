@@ -28,15 +28,15 @@ public class PageProduct extends Panel {
     public Label lbl_name = new Label("Nome:");
     public Label lbl_nameIngredient = new Label("Nome:");
     public Label lbl_barcode = new Label("Codigo de Barra:");
-    public Label lbl_sellPrice = new Label("Preco de venda:");
+    public Label lbl_sellPrice = new Label("Preco de venda [$]:");
     public Label lbl_stock = new Label("Quantidade em Estoque:");
     public Label lbl_productType = new Label("Tipo de Produto:");
     public Label lbl_supplier = new Label("Fornecedor:");
     public Label lbl_brand = new Label("Marca:");
-    public Label lbl_carbohydrates = new Label("Carboidratos:");
-    public Label lbl_saturatedFat = new Label("Gorduras S.:");
-    public Label lbl_proteins = new Label("Proteinas:");
-    public Label lbl_calories = new Label("Calorias:");
+    public Label lbl_carbohydrates = new Label("Carboidratos  [100g]:");
+    public Label lbl_saturatedFat = new Label("Gorduras S.  [100g]:");
+    public Label lbl_proteins = new Label("Proteinas  [100g]:");
+    public Label lbl_calories = new Label("Calorias [100g]:");
 
     public TextArea txtArea = new TextArea();
 
