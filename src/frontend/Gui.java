@@ -37,6 +37,16 @@ public class Gui extends MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 card_layout.show(panel_pages, "invoice");
+
+                page_invoice.clients.removeAll();
+                for (Client client : bakery.getAllClients()) {
+                    page_invoice.clients.add(client.getName());
+                }
+
+                page_invoice.products.removeAll();
+                for (Product product : bakery.getAllProducts()) {
+                    page_invoice.products.add(product.getName());
+                }
             }
         });
 
@@ -393,15 +403,19 @@ public class Gui extends MainWindow {
                 } catch (Exception error) {
                     page_product.txtArea.setText("Valores nutricionais invalidos!");
                 }
-
             }
         });
 
         this.page_product.btn_popIngredient.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ingredients.remove(ingredients.size() - 1);
-                updateIngredientsList();
+                try {
+                    ingredients.remove(ingredients.size() - 1);
+                    updateIngredientsList();
+
+                } catch (Exception error) {
+
+                }
             }
         });
 
@@ -453,7 +467,8 @@ public class Gui extends MainWindow {
                         }
 
                         bakery.addProduct(product_h);
-                        page_product.ingredients.removeAll();
+                        ingredients.clear();
+                        updateIngredientsList();
                         break;
 
                     default:
@@ -506,6 +521,68 @@ public class Gui extends MainWindow {
             }
         });
 
+        this.page_invoice.btn_addItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String quantity = page_invoice.txt_quantity.getText().trim();
+
+                try {
+                    int quantity_int = Integer.parseInt(quantity);
+
+                    Product product = bakery.getProductByName(page_invoice.products.getSelectedItem());
+
+                    if (product == null) {
+                        page_invoice.txtArea.setText("Produto invalido!");
+                        return;
+                    }
+
+                    Item item = new Item(product.getName(), product.getSellPrice(), quantity_int);
+
+                    items.add(item);
+                    updateItemsList();
+
+                    page_invoice.txt_quantity.setText("0");
+
+                } catch (Exception error) {
+                    page_invoice.txtArea.setText("Quantidade invalida!");
+                }
+            }
+        });
+
+        this.page_invoice.btn_popItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    items.remove(items.size() - 1);
+                    updateItemsList();
+
+                } catch (Exception error) {
+
+                }
+            }
+        });
+
+        this.page_invoice.btn_add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Client client = bakery.getClientByName(page_invoice.clients.getSelectedItem());
+
+                if (client == null) {
+                    page_invoice.txtArea.setText("Cliente invalido!");
+                    return;
+                }
+
+                Invoice invoice = new Invoice(client);
+
+                for (Item item : items) {
+                    invoice.addItem(item.getName(), item.getQuantity());
+                }
+
+                bakery.addInvoice(invoice);
+                items.clear();
+                updateItemsList();
+            }
+        });
     }
 
     // ------------------------------------------------------------------------
@@ -521,7 +598,8 @@ public class Gui extends MainWindow {
         this.page_invoice.items.removeAll();
 
         for (Item item : items) {
-            this.page_invoice.items.add(item.getName());
+            this.page_invoice.items.add(
+                    String.format("%7s | P: %.2f$ | Q: %d\n", item.getName(), item.getPrice(), item.getQuantity()));
         }
     }
 
