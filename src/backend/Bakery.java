@@ -128,11 +128,11 @@ public class Bakery {
         String text = "";
         int number = 1;
 
-        System.out.println("-------------------Produtos-----------------------\n");
+        text += "-------------------Produtos-----------------------\n";
         for (Product product : this.getAllProducts()) {
-            System.out.println(number++ + " | " + product.toString());
+            text += number++ + " | " + product.toString() + "\n";
         }
-        System.out.println("--------------------------------------------------\n");
+        text += "--------------------------------------------------\n";
 
         return text;
     }

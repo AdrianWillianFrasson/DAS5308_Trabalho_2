@@ -3,10 +3,13 @@ package frontend;
 import backend.*;
 
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Gui extends MainWindow {
 
     private Bakery bakery;
+
+    private ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
     public Gui(Bakery bakery) {
         this.setBakery(bakery);
@@ -40,6 +43,11 @@ public class Gui extends MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 card_layout.show(panel_pages, "product");
+
+                page_product.supplier.removeAll();
+                for (Supplier supplier : bakery.getAllSuppliers()) {
+                    page_product.supplier.add(supplier.getName());
+                }
             }
         });
 
@@ -258,6 +266,226 @@ public class Gui extends MainWindow {
                 page_client.txt_namePop.setText("");
             }
         });
+
+        // Product Page -------------------------------------------------------
+        this.page_product.btn_searchByName.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = page_product.txt_search.getText().trim();
+                Product product = bakery.getProductByName(name);
+
+                if (product != null) {
+                    page_product.txtArea.setText("-> Produto com o Nome: " + name +
+                            "\n\n" + product.toStringDetailed());
+
+                } else {
+                    page_product.txtArea.setText("Nenhum Produto encontrado com o Nome: " + name + "\n");
+                }
+            }
+        });
+
+        this.page_product.btn_searchByBarCode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String barCode = page_product.txt_search.getText().trim();
+                Product product = bakery.getProductByBarCode(barCode);
+
+                if (product != null) {
+                    page_product.txtArea.setText("-> Produto com o Codigo de barra: " + barCode +
+                            "\n\n" + product.toStringDetailed());
+
+                } else {
+                    page_product.txtArea.setText("Nenhum Produto encontrado com o Codigo de barra: " + barCode + "\n");
+                }
+            }
+        });
+
+        this.page_product.btn_showAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                page_product.txtArea.setText(bakery.printAllProducts());
+            }
+        });
+
+        this.page_product.productType.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                switch (page_product.productType.getSelectedItem()) {
+                    case "Tercerizado":
+                        page_product.ingredients.removeAll();
+                        page_product.ingredients.setEnabled(false);
+                        page_product.txt_nameIngredient.setEnabled(false);
+                        page_product.txt_carbohydrates.setEnabled(false);
+                        page_product.txt_saturatedFat.setEnabled(false);
+                        page_product.txt_proteins.setEnabled(false);
+                        page_product.txt_calories.setEnabled(false);
+                        page_product.btn_addIngredient.setEnabled(false);
+                        page_product.btn_popIngredient.setEnabled(false);
+
+                        page_product.txt_nameIngredient.setText("");
+                        page_product.txt_carbohydrates.setText("");
+                        page_product.txt_saturatedFat.setText("");
+                        page_product.txt_proteins.setText("");
+                        page_product.txt_calories.setText("");
+
+                        page_product.supplier.setEnabled(true);
+                        page_product.txt_brand.setEnabled(true);
+                        break;
+
+                    case "Proprio":
+                        page_product.ingredients.setEnabled(true);
+                        page_product.txt_nameIngredient.setEnabled(true);
+                        page_product.txt_carbohydrates.setEnabled(true);
+                        page_product.txt_saturatedFat.setEnabled(true);
+                        page_product.txt_proteins.setEnabled(true);
+                        page_product.txt_calories.setEnabled(true);
+                        page_product.btn_addIngredient.setEnabled(true);
+                        page_product.btn_popIngredient.setEnabled(true);
+
+                        page_product.txt_carbohydrates.setText("0");
+                        page_product.txt_saturatedFat.setText("0");
+                        page_product.txt_proteins.setText("0");
+                        page_product.txt_calories.setText("0");
+
+                        page_product.supplier.setEnabled(false);
+                        page_product.txt_brand.setEnabled(false);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+
+        this.page_product.btn_addIngredient.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = page_product.txt_nameIngredient.getText().trim();
+                String carbohydrates = page_product.txt_carbohydrates.getText().trim();
+                String saturatedFat = page_product.txt_saturatedFat.getText().trim();
+                String proteins = page_product.txt_proteins.getText().trim();
+                String calories = page_product.txt_calories.getText().trim();
+
+                if (name.isBlank()) {
+                    page_product.txtArea.setText("Nome do Ingrediente deve ser fornecido!");
+                    return;
+                }
+
+                try {
+                    double carbohydrates_d = Double.parseDouble(carbohydrates);
+                    double saturatedFat_d = Double.parseDouble(saturatedFat);
+                    double proteins_d = Double.parseDouble(proteins);
+                    double calories_d = Double.parseDouble(calories);
+
+                    Ingredient ingredient = new Ingredient(name, carbohydrates_d, saturatedFat_d, proteins_d,
+                            calories_d);
+
+                    ingredients.add(ingredient);
+                    updateingredientsList();
+
+                    page_product.txt_nameIngredient.setText("");
+                    page_product.txt_carbohydrates.setText("0");
+                    page_product.txt_saturatedFat.setText("0");
+                    page_product.txt_proteins.setText("0");
+                    page_product.txt_calories.setText("0");
+
+                } catch (Exception error) {
+                    page_product.txtArea.setText("Valores nutricionais invalidos!");
+                }
+
+            }
+        });
+
+        this.page_product.btn_popIngredient.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ingredients.remove(ingredients.size() - 1);
+                updateingredientsList();
+            }
+        });
+
+        this.page_product.btn_add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = page_product.txt_name.getText().trim();
+                String barcode = page_product.txt_barcode.getText().trim();
+                String sellPrice = page_product.txt_sellPrice.getText().trim();
+                String stock = page_product.txt_stock.getText().trim();
+
+                if (name.isBlank() || barcode.isBlank()) {
+                    page_product.txtArea.setText("Nome e Codigo de Barras devem ser fornecidos!");
+                    return;
+                }
+
+                double sellPrice_double = 0.0;
+                int stock_int = 0;
+
+                try {
+                    sellPrice_double = Double.parseDouble(sellPrice);
+                    stock_int = Integer.parseInt(stock);
+
+                } catch (Exception error) {
+                    page_product.txtArea.setText("Alguns dados fornecidos sao invalidos!");
+                    return;
+                }
+
+                switch (page_product.productType.getSelectedItem()) {
+                    case "Tercerizado":
+                        Supplier supplier = bakery.getSupplierByName(page_product.supplier.getSelectedItem());
+                        String brand = page_product.txt_brand.getText().trim();
+
+                        if (supplier == null) {
+                            page_product.txtArea.setText("Algum fornecedor deve ser fornecido!");
+                            return;
+                        }
+
+                        ProductOutsourced product_o = new ProductOutsourced(name, barcode, sellPrice_double, stock_int,
+                                supplier, brand);
+                        bakery.addProduct(product_o);
+                        break;
+
+                    case "Proprio":
+                        ProductHomeMade product_h = new ProductHomeMade(name, barcode, sellPrice_double, stock_int);
+
+                        for (Ingredient ingredient : ingredients) {
+                            product_h.addIngredient(ingredient);
+                        }
+
+                        bakery.addProduct(product_h);
+                        page_product.ingredients.removeAll();
+                        break;
+
+                    default:
+                        break;
+                }
+
+                page_product.txt_name.setText("");
+                page_product.txt_barcode.setText("");
+                page_product.txt_sellPrice.setText("");
+                page_product.txt_stock.setText("");
+                page_product.txt_brand.setText("");
+            }
+        });
+
+        this.page_product.btn_pop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = page_product.txt_namePop.getText().trim();
+
+                bakery.popProductByName(name);
+                page_product.txt_namePop.setText("");
+            }
+        });
+
+    }
+
+    // ------------------------------------------------------------------------
+    private void updateingredientsList() {
+        this.page_product.ingredients.removeAll();
+
+        for (Ingredient ingredient : ingredients) {
+            this.page_product.ingredients.add(ingredient.getName());
+        }
     }
 
     // Setters ----------------------------------------------------------------

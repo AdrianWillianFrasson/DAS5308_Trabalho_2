@@ -11,7 +11,7 @@ public abstract class MainWindow extends Frame {
 
     public PageSupplier page_supplier = new PageSupplier();
     public Panel page_invoice = new Panel();
-    public Panel page_product = new Panel();
+    public PageProduct page_product = new PageProduct();
     public PageClient page_client = new PageClient();
 
     public Button btn_menu_supplier = new Button("Fornecedores");
