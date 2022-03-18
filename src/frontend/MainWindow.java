@@ -30,7 +30,6 @@ public abstract class MainWindow extends Frame {
         c.insets = new Insets(5, 5, 5, 5);
 
         c.fill = GridBagConstraints.BOTH;
-        c.gridheight = 1;
         c.gridwidth = 4;
         c.weighty = 1.0;
         c.weightx = 1.0;
@@ -44,40 +43,23 @@ public abstract class MainWindow extends Frame {
         this.add(this.panel_pages, c);
 
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
         c.gridwidth = 1;
         c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 1;
         c.gridx = 0;
         this.btn_menu_supplier.setBackground(Color.LIGHT_GRAY);
         this.add(this.btn_menu_supplier, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 1;
         c.gridx = 1;
         this.btn_menu_client.setBackground(Color.LIGHT_GRAY);
         this.add(this.btn_menu_client, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 1;
         c.gridx = 2;
         this.btn_menu_product.setBackground(Color.LIGHT_GRAY);
         this.add(this.btn_menu_product, c);
 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridheight = 1;
-        c.gridwidth = 1;
-        c.weighty = 0.0;
-        c.weightx = 1.0;
         c.gridy = 1;
         c.gridx = 3;
         this.btn_menu_invoice.setBackground(Color.LIGHT_GRAY);
